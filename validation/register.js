@@ -5,9 +5,9 @@ module.exports = function validateRegisterInput(data) {
   let errors = {};
 
   data.name = !isEmpty(data.name) ? data.name : "";
-  data.email = !isEmpty(data.email) ? data.email : "";
-  data.password = !isEmpty(data.password) ? data.password : "";
-  data.password2 = !isEmpty(data.password2) ? data.password2 : "";
+  data.emailReg = !isEmpty(data.email) ? data.email : "";
+  data.passwordReg = !isEmpty(data.password) ? data.password : "";
+  data.passwordReg2 = !isEmpty(data.password2) ? data.password2 : "";
 
   // Validate name
 
@@ -21,31 +21,34 @@ module.exports = function validateRegisterInput(data) {
 
   // Validate email
 
-  if (!Validator.isEmail(data.email)) {
-    errors.email = "Email is invalid";
+  if (!Validator.isEmail(data.emailReg)) {
+    errors.emailReg = "Email is invalid";
   }
 
-  if (Validator.isEmpty(data.email)) {
-    errors.email = "Email field is required";
+  if (Validator.isEmpty(data.emailReg)) {
+    errors.emailReg = "Email field is required";
   }
 
   // Validate password
 
-  if (!Validator.isLength(data.name, { min: 6, max: 30 })) {
-    errors.password = "Password must be between 6 and 30 characters";
+  if (!Validator.isLength(data.passwordReg, { min: 6, max: 30 })) {
+    errors.passwordReg = "Password must be between 6 and 30 characters";
   }
 
-  if (Validator.isEmpty(data.password)) {
-    errors.password = "Password field is required";
+  if (Validator.isEmpty(data.passwordReg)) {
+    errors.passwordReg = "Password field is required";
   }
 
-  if (!Validator.equals(data.password, data.password2)) {
-    errors.password2 = "Password must match";
+  if (!Validator.equals(data.passwordReg, data.passwordReg2)) {
+    errors.passwordReg2 = "Password must match";
   }
 
-  if (Validator.isEmpty(data.password2)) {
-    errors.password2 = "Confirm password field is required";
+  if (Validator.isEmpty(data.passwordReg2)) {
+    errors.passwordReg2 = "Confirm password field is required";
   }
+
+
+
 
   return {
     errors,

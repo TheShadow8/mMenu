@@ -24,21 +24,21 @@ router.post("/register", (req, res) => {
     return res.status(400).json(errors);
   }
 
-  User.findOne({ email: req.body.email }).then(user => {
+  User.findOne({ email: req.body.emailReg }).then(user => {
     if (user) {
-      errors.email = "Email already exists";
-      return res.status(400).json({ errors });
+      errors.emailReg = "Email already exists";
+      return res.status(400).json(errors);
     } else {
-      const avatar = gravatar.url(req.body.email, {
+      const avatar = gravatar.url(req.body.emailReg, {
         s: "200",
         r: "pg",
         d: "mm"
       });
       const newUser = new User({
         name: req.body.name,
-        email: req.body.email,
+        email: req.body.emailReg,
         avatar,
-        password: req.body.password
+        password: req.body.passwordReg
       });
 
       // Bcrypt the password
@@ -48,7 +48,10 @@ router.post("/register", (req, res) => {
           newUser.password = hash;
           newUser
             .save()
-            .then(user => res.json(user))
+            .then(user => {
+              res.json(user);
+              req.body.isSubmit = true;
+            })
             .catch((err = console.log(err)));
         });
       });
@@ -74,7 +77,7 @@ router.post("/login", (req, res) => {
     // Check for user
     if (!user) {
       errors.email = "User not found";
-      return res.status(404).json({ errors });
+      return res.status(404).json(errors);
     }
 
     // Check password
@@ -101,7 +104,7 @@ router.post("/login", (req, res) => {
         );
       } else {
         errors.password = "Password incorrect";
-        return res.status(400).json({ errors });
+        return res.status(400).json(errors);
       }
     });
   });
