@@ -38,14 +38,13 @@ a:hover, a:focus {
   color: #bbb !important;
 } */
 
-
-
-label{
- margin-bottom: 15px;
+.login-nav {
+  height: 125px;
 }
+
 
 .main-center{
   max-width: 600px;
-  margin-bottom: 20px;
+  margin-top: 100px;
 }
 

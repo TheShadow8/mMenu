@@ -52,7 +52,7 @@ router.post("/register", (req, res) => {
               res.json(user);
               req.body.isSubmit = true;
             })
-            .catch((err = console.log(err)));
+            .catch((err => console.log(err)));
         });
       });
     }

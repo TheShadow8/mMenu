@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { registerUser } from '../../actions/authActions';
 import TextFieldGroup from '../common/TextFieldGroup';
-import isEmpty from '../../validation/is-empty'
+
 
 class Register extends Component {
     constructor() {
@@ -50,12 +50,12 @@ class Register extends Component {
         const { isRegisted } = this.props.auth;
 
         let registed;
-        if (!isEmpty(isRegisted)) {
+        if (isRegisted === true) {
             registed =
                 <div className="align-center">
 
                     <h2 className="text-center mt-2">
-                        <i className="far fa-check-circle fa-2x"></i> Registed, Time to eat !</h2>
+                        <i className="far fa-check-circle fa-2x text-success"></i> Registed, Time to eat !</h2>
                 </div>
         }
         else {
@@ -68,7 +68,7 @@ class Register extends Component {
                 <h1 className="pb-4 text-center">Looking for some food ?</h1>
                 {registed}
                 <form className={classnames('form-horizontal', {
-                    'invisible': !isEmpty(isRegisted)
+                    'invisible': (isRegisted === true)
                 })} noValidate onSubmit={this.onSubmit}>
                     <TextFieldGroup
                         label="Name:"
