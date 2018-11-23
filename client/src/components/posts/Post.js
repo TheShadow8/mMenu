@@ -1,17 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export class Post extends Component {
-  render() {
+function Post(props) {
+  const { posts } = props;
+
+  return posts.map(post => {
     return (
-      <div>
-        <img src="http://localhost:5000/images/487722.jpg-1540342129688.jpg" />
-        <h4>minhminh1: abc123</h4>
-        <div>99999 Likes</div>
+      <div className="col-12 align-self-center" key={post._id}>
+        <img className="img-thumbnail" src={post.imagePath} />
+        <h4>
+          {post.name}: {post.text}
+        </h4>
+        <div>{post.likes.length} Likes</div>
         <hr />
-        <h5>minhminh2: 123abc</h5>
+        <h5 />
       </div>
     );
-  }
+  });
 }
 
 export default Post;

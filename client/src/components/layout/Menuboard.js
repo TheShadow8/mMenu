@@ -4,7 +4,7 @@ import PostList from '../posts/PostList';
 class Menuboard extends Component {
   render() {
     return (
-      <div>
+      <div className="container">
         <PostList />
       </div>
     );
