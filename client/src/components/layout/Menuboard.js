@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import Navbar from './Navbar';
+import PostList from '../posts/PostList';
 
 class Menuboard extends Component {
-    render() {
-        return (
-            <Navbar />
-        )
-    }
+  render() {
+    return (
+      <div>
+        <PostList />
+      </div>
+    );
+  }
 }
 export default Menuboard;

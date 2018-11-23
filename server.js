@@ -6,18 +6,20 @@ const path = require('path');
 const cors = require('cors');
 
 const users = require('./routes/api/users');
-const posts = require('./routes/api/posts')
+const posts = require('./routes/api/posts');
 
 const app = express();
 
 // Body parser middleware
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
+app.use(
+  bodyParser.urlencoded({
+    extended: false
+  })
+);
 app.use(bodyParser.json());
 
 // Use images folder to save uploaded image
-app.use("/images", express.static(path.join("images")));
+app.use('/images', express.static(path.join('images')));
 
 // DB config
 const db = require('./config/dev_keys').mongoURI;
@@ -34,7 +36,7 @@ app.use(passport.initialize());
 require('./config/passport')(passport);
 
 // Handle CORS
-app.use(cors())
+app.use(cors());
 
 // Use routes
 app.use('/api/users', users);
