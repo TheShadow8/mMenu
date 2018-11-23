@@ -9,6 +9,7 @@ import { addPost } from '../../actions/postActions';
 export class AddPost extends Component {
   state = {
     text: '',
+    image: null,
     imagePreview: null,
     errors: {}
   };
@@ -26,6 +27,23 @@ export class AddPost extends Component {
         this.setState({ imagePreview: null });
         console.log(e);
       });
+
+    this.setState({ image: e.target.files[0] });
+  };
+
+  onSubmit = e => {
+    e.preventDefault();
+
+    const { user } = this.props.auth;
+
+    const newPost = {
+      name: user.name,
+      avatar: user.avatar,
+      text: this.state.text,
+      image: this.state.image
+    };
+
+    this.props.addPost(newPost, this.props.history);
   };
 
   render() {
@@ -37,7 +55,7 @@ export class AddPost extends Component {
             <form onSubmit={this.onSubmit}>
               <div className="form-group">
                 <TextFieldGroup placeholder="How about you meal ?" name="text" value={this.state.text} onChange={this.onChange} error={errors.text} />
-                <input className=" form-group" type="file" onChange={this.imgHandler} />
+                <input className=" form-group" type="file" name="image" onChange={this.imgHandler} />
                 <div className=" form-group new-post__preview-image">{this.state.imagePreview && <Image imageUrl={this.state.imagePreview} />}</div>
               </div>
 
