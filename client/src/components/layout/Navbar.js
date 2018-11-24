@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import { logoutUser } from '../../actions/authActions';
-import TextFieldGroup from '../common/TextFieldGroup';
 
 class Navbar extends Component {
   onLogoutClick(e) {

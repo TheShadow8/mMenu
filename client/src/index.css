@@ -14,3 +14,9 @@ body {
   width: 15rem;
   height: 7rem;
 }
+
+.comment {
+  width: 30%;
+  height: 30%;
+  border: none;
+}

@@ -29,6 +29,6 @@ router.post('/comment/:id', passport.authenticate('jwt', { session: false }), po
 // @route   DELETE api/posts/comment/:id/:comment_id
 // @desc    Remove comment from post
 // @access  Private
-router.post('/comment/:id/:comment_id', passport.authenticate('jwt', { session: false }), postController.deleteComment);
+router.delete('/comment/:id/:comment_id', passport.authenticate('jwt', { session: false }), postController.deleteComment);
 
 module.exports = router;
