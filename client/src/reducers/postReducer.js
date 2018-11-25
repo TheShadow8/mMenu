@@ -35,6 +35,12 @@ export default function(state = initialState, action) {
         ...state,
         posts: state.posts.filter(post => post._id !== action.payload)
       };
+    // case GET_COMMENT:
+    //   return {
+    //     ...state,
+    //     comment: action.payload,
+    //     loading: false
+    //   };
     default:
       return state;
   }

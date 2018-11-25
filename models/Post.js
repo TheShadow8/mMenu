@@ -4,55 +4,61 @@ const Schema = mongoose.Schema;
 // Create post schema
 
 const PostSchema = new Schema({
-    user: {
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'user'
+  },
+  text: {
+    type: String,
+    required: true
+  },
+
+  name: {
+    type: String
+  },
+
+  imagePath: {
+    type: String
+  },
+  avatar: {
+    type: String
+  },
+  likes: [
+    {
+      user: {
         type: Schema.Types.ObjectId,
         ref: 'user'
-    },
-    text: {
+      }
+    }
+  ],
+  comments: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+      },
+
+      text: {
         type: String,
-        required: true
-    },
-
-    name: {
+        require: true
+      },
+      name: {
         type: String
-    },
+      },
 
-    imagePath: {
+      avatar: {
         type: String
-    },
-    avatar: {
-        type: String
-    },
-    likes: [{
-        user: {
-            type: Schema.Types.ObjectId,
-            ref: 'user'
-        },
-    }],
-    comments: [{
-        user: {
-            type: Schema.Types.ObjectId,
-            ref: 'user'
-        },
-
-        text: {
-            type: String,
-            require: true
-        },
-
-        avatar: {
-            type: String
-        },
-        date: {
-            type: Date,
-            default: Date.now
-        }
-
-    }],
-    date: {
+      },
+      date: {
         type: Date,
         default: Date.now
+      }
     }
+  ],
+  date: {
+    type: Date,
+    default: Date.now
+  }
 });
 
 module.exports = Post = mongoose.model('post', PostSchema);

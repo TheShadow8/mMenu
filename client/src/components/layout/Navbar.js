@@ -13,7 +13,7 @@ class Navbar extends Component {
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-light">
-        <a className="navbar-brand" href="">
+        <a className="navbar-brand" href="/">
           <i className="fab fa-monero fa-2x" />
           menu
         </a>
