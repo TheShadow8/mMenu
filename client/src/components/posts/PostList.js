@@ -15,10 +15,10 @@ export class PostList extends Component {
     if (posts === null || loading) {
       postContent = <Spinner />;
     } else {
-      postContent = <Post posts={posts} />;
+      postContent = <Post className="row" posts={posts} />;
     }
 
-    return <div className="row">{postContent}</div>;
+    return <div className="container">{postContent}</div>;
   }
 }
 

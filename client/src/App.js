@@ -8,10 +8,12 @@ import { Provider } from 'react-redux';
 import store from './store';
 
 import PrivateRoute from './components/common/PrivateRoute';
+import ScrollToTop from './utils/ScrollToTop';
 
 import Landing from './components/layout/Landing';
 import Menuboard from './components/layout/Menuboard';
 import AddPost from './components/posts/AddPost';
+import PostItem from './components/posts/PostItem';
 
 import './App.css';
 
@@ -39,13 +41,21 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
-          <div className="App">
-            <Route exact path="/" component={Landing} />
-            <Switch>
-              <PrivateRoute exact path="/menuboard" component={Menuboard} />
-              <PrivateRoute exact path="/addpost" component={AddPost} />
-            </Switch>
-          </div>
+          <ScrollToTop>
+            <div className="App">
+              <Route exact path="/" component={Landing} />
+              <Switch>
+                <PrivateRoute exact path="/menuboard" component={Menuboard} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/addpost" component={AddPost} />
+              </Switch>
+
+              <Switch>
+                <PrivateRoute exact path="/post/:id" component={PostItem} />
+              </Switch>
+            </div>
+          </ScrollToTop>
         </Router>
       </Provider>
     );

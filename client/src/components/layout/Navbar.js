@@ -11,12 +11,13 @@ class Navbar extends Component {
   }
 
   render() {
+    console.log(this.props);
     return (
       <nav className="navbar navbar-expand-lg navbar-light">
-        <a className="navbar-brand" href="/">
+        <Link className="navbar-brand" to="/">
           <i className="fab fa-monero fa-2x" />
           menu
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"

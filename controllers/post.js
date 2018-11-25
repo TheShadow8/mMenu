@@ -8,6 +8,7 @@ const uploadImage = require('../middleware/uploadImage');
 exports.getPosts = async (req, res) => {
   try {
     const posts = await Post.find().sort({ date: -1 });
+
     res.json(posts);
   } catch {
     res.status(404).json({ nopostsfound: 'No posts found' });
@@ -36,7 +37,8 @@ exports.postPost = (req, res) => {
         user: req.user.id,
         name: req.body.name,
         avatar: req.body.avatar,
-        text: req.body.text,
+        title: req.body.title,
+        content: req.body.content,
         imagePath: url + '/images/' + req.file.filename
       });
 
