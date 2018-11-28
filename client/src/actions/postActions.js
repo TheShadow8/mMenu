@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { ADD_POST, GET_ERRORS, CLEAR_ERRORS, GET_POSTS, GET_POST, POST_LOADING, GET_COMMENT } from './types';
+import { ADD_POST, GET_ERRORS, CLEAR_ERRORS, GET_POSTS, GET_USER_POSTS, GET_POST, POST_LOADING, GET_COMMENT } from './types';
 
 // Get Posts
 export const getPosts = () => async dispatch => {
@@ -12,6 +12,21 @@ export const getPosts = () => async dispatch => {
   } catch (err) {
     dispatch({
       type: GET_POSTS,
+      payload: null
+    });
+  }
+};
+
+// Get User Posts
+export const getUserPosts = userId => async dispatch => {
+  try {
+    dispatch(setPostLoading());
+    const res = await axios.get(`/api/posts/user/${userId}`);
+
+    dispatch({ type: GET_USER_POSTS, payload: res.data });
+  } catch (err) {
+    dispatch({
+      type: GET_USER_POSTS,
       payload: null
     });
   }

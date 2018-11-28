@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Post from './Post';
+import Posts from './Posts';
 import Spinner from '../common/Spinner';
 import { connect } from 'react-redux';
 import { getPosts } from '../../actions/postActions';
@@ -12,13 +12,13 @@ export class PostList extends Component {
     const { posts, loading } = this.props.post;
     let postContent;
 
-    if (posts === null || loading) {
+    if (posts === null || loading || Object.keys(posts).length === 0) {
       postContent = <Spinner />;
     } else {
-      postContent = <Post className="row" posts={posts} />;
+      postContent = <Posts className="row" posts={posts} />;
     }
 
-    return <div className="container">{postContent}</div>;
+    return <div>{postContent}</div>;
   }
 }
 

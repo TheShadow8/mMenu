@@ -15,6 +15,18 @@ exports.getPosts = async (req, res) => {
   }
 };
 
+// @route   GET api/posts/user/:id
+// @desc    Get post by user id
+// @access  Private
+exports.getUserPosts = async (req, res) => {
+  try {
+    const userPosts = await Post.find({ user: req.params.id }).sort({ date: -1 });
+    res.json(userPosts);
+  } catch {
+    res.status(404).json({ nopostsfound: 'No posts found' });
+  }
+};
+
 // @route    POST api/posts
 // @desc     Create post
 // @accesss  Private

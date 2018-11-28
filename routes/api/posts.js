@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const uploadImage = require('../../middleware/uploadImage');
 const postController = require('../../controllers/post');
 
 // @route   GET api/posts
@@ -19,6 +18,11 @@ router.post(
   }),
   postController.postPost
 );
+
+// @route   GET api/posts/user/:id
+// @desc    Get post by user id
+// @access  Private
+router.get('/user/:id', passport.authenticate('jwt', { session: false }), postController.getUserPosts);
 
 // @route   GET api/posts/:id
 // @desc    Get post by id

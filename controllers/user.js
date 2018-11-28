@@ -85,7 +85,8 @@ exports.postLogin = async (req, res) => {
       const payload = {
         id: user.id,
         name: user.name,
-        avatar: user.avatar
+        avatar: user.avatar,
+        bio: user.bio || 'Hello everyone'
       };
 
       // Sign Token

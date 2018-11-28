@@ -11,7 +11,6 @@ class Navbar extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <nav className="navbar navbar-expand-lg navbar-light">
         <Link className="navbar-brand" to="/">
@@ -51,9 +50,9 @@ class Navbar extends Component {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="">
+              <Link className="nav-link" to="/profile">
                 <i className="far fa-user fa-2x" />
-              </a>
+              </Link>
             </li>
 
             <li className="nav-item">
@@ -71,6 +70,10 @@ class Navbar extends Component {
 Navbar.propTypes = {
   logoutUser: propTypes.func.isRequired
 };
+
+// const mapPropsToState = state => ({
+//   user: state.auth.user
+// });
 
 export default connect(
   null,

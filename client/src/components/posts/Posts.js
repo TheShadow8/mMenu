@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function Post(props) {
+function Posts(props) {
   const { posts } = props;
 
   return posts.map(post => (
@@ -20,4 +20,4 @@ function Post(props) {
   ));
 }
 
-export default Post;
+export default Posts;

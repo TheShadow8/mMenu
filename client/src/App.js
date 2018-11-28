@@ -14,6 +14,7 @@ import Landing from './components/layout/Landing';
 import Menuboard from './components/layout/Menuboard';
 import AddPost from './components/posts/AddPost';
 import PostItem from './components/posts/PostItem';
+import Profile from './components/profile/Profile';
 
 import './App.css';
 
@@ -44,16 +45,22 @@ class App extends Component {
           <ScrollToTop>
             <div className="App">
               <Route exact path="/" component={Landing} />
-              <Switch>
-                <PrivateRoute exact path="/menuboard" component={Menuboard} />
-              </Switch>
-              <Switch>
-                <PrivateRoute exact path="/addpost" component={AddPost} />
-              </Switch>
+              <div className="container">
+                <Switch>
+                  <PrivateRoute exact path="/menuboard" component={Menuboard} />
+                </Switch>
+                <Switch>
+                  <PrivateRoute exact path="/addpost" component={AddPost} />
+                </Switch>
 
-              <Switch>
-                <PrivateRoute exact path="/post/:id" component={PostItem} />
-              </Switch>
+                <Switch>
+                  <PrivateRoute exact path="/post/:id" component={PostItem} />
+                </Switch>
+
+                <Switch>
+                  <PrivateRoute exact path="/profile" component={Profile} />
+                </Switch>
+              </div>
             </div>
           </ScrollToTop>
         </Router>
