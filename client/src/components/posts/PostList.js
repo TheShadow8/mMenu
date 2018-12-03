@@ -1,19 +1,18 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Posts from './Posts';
-import Spinner from '../common/Spinner';
-import { connect } from 'react-redux';
-import { getPosts } from '../../actions/postActions';
+import {connect} from 'react-redux';
+import {getPosts} from '../../actions/postActions';
 export class PostList extends Component {
   componentDidMount() {
     this.props.getPosts();
   }
 
   render() {
-    const { posts, loading } = this.props.post;
+    const {posts, loading} = this.props.post;
     let postContent;
 
     if (posts === null || loading || Object.keys(posts).length === 0) {
-      postContent = <Spinner />;
+      postContent = null;
     } else {
       postContent = <Posts className="row" posts={posts} />;
     }
@@ -23,10 +22,10 @@ export class PostList extends Component {
 }
 
 const mapStateToProps = state => ({
-  post: state.post
+  post: state.post,
 });
 
 export default connect(
   mapStateToProps,
-  { getPosts }
+  {getPosts},
 )(PostList);

@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
-import { addComment } from '../../actions/postActions';
+import {addComment} from '../../actions/postActions';
 
 class CommentForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: '',
-      errors: {}
+      content: '',
+      errors: {},
     };
 
     this.onChange = this.onChange.bind(this);
@@ -17,32 +17,32 @@ class CommentForm extends Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.errors) {
-      this.setState({ errors: newProps.errors });
+      this.setState({errors: newProps.errors});
     }
   }
 
   onSubmit(e) {
     e.preventDefault();
 
-    const { user } = this.props.auth;
-    const { postId } = this.props;
+    const {user} = this.props.auth;
+    const {postId} = this.props;
 
     const newComment = {
-      text: this.state.text,
+      content: this.state.content,
       name: user.name,
-      avatar: user.avatar
+      avatar: user.avatar,
     };
 
     this.props.addComment(postId, newComment);
-    this.setState({ text: '' });
+    this.setState({content: ''});
   }
 
   onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({[e.target.name]: e.target.value});
   }
 
   render() {
-    const { errors } = this.state;
+    const {errors} = this.state;
 
     return (
       <div className="post-form mb-3">
@@ -50,7 +50,7 @@ class CommentForm extends Component {
           <div className="card-body">
             <form onSubmit={this.onSubmit}>
               <div className="form-group">
-                <TextAreaFieldGroup placeholder="Reply to post" name="text" value={this.state.text} onChange={this.onChange} error={errors.text} />
+                <TextAreaFieldGroup placeholder="Reply to post" name="content" value={this.state.content} onChange={this.onChange} error={errors.content} />
               </div>
               <button type="submit" className="btn btn-dark">
                 Send
@@ -65,10 +65,10 @@ class CommentForm extends Component {
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
 });
 
 export default connect(
   mapStateToProps,
-  { addComment }
+  {addComment},
 )(CommentForm);

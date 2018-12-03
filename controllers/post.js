@@ -1,5 +1,5 @@
 const Post = require('../models/Post');
-const validatePostInput = require('../validation/post');
+const {validatePostInput, validateCommentInput} = require('../validation/post');
 const uploadImage = require('../middleware/uploadImage');
 
 // @route   GET api/posts
@@ -7,11 +7,11 @@ const uploadImage = require('../middleware/uploadImage');
 // @access  Public
 exports.getPosts = async (req, res) => {
   try {
-    const posts = await Post.find().sort({ date: -1 });
+    const posts = await Post.find().sort({date: -1});
 
     res.json(posts);
   } catch {
-    res.status(404).json({ nopostsfound: 'No posts found' });
+    res.status(404).json({nopostsfound: 'No posts found'});
   }
 };
 
@@ -20,10 +20,10 @@ exports.getPosts = async (req, res) => {
 // @access  Private
 exports.getUserPosts = async (req, res) => {
   try {
-    const userPosts = await Post.find({ user: req.params.id }).sort({ date: -1 });
+    const userPosts = await Post.find({user: req.params.id}).sort({date: -1});
     res.json(userPosts);
   } catch {
-    res.status(404).json({ nopostsfound: 'No posts found' });
+    res.status(404).json({nopostsfound: 'No posts found'});
   }
 };
 
@@ -33,11 +33,12 @@ exports.getUserPosts = async (req, res) => {
 exports.postPost = (req, res) => {
   uploadImage(req, res, async err => {
     if (err) {
-      return res.status(400).json({ invalidError: 'Invalid image file' });
+      console.log(err);
+      return res.status(400).json({invalidError: 'Invalid image file'});
     }
 
     const url = req.protocol + '://' + req.get('host');
-    const { errors, isValid } = validatePostInput(req.body);
+    const {errors, isValid} = validatePostInput(req.body);
 
     // Check validation
     if (!isValid) {
@@ -51,14 +52,14 @@ exports.postPost = (req, res) => {
         avatar: req.body.avatar,
         title: req.body.title,
         content: req.body.content,
-        imagePath: url + '/images/' + req.file.filename
+        imagePath: url + '/images/' + req.file.filename,
       });
 
       const newPost = await newPostData.save();
       res.json(newPost);
     } catch (err) {
       console.log(err);
-      return res.status(400).json({ postError: 'Create post fail, please try again' });
+      return res.status(400).json({postError: 'Create post fail, please try again'});
     }
   });
 };
@@ -71,7 +72,7 @@ exports.getPost = async (req, res) => {
     const post = await Post.findById(req.params.id);
     res.json(post);
   } catch (err) {
-    res.status(404).json({ nopostfound: 'No post found with that ID' });
+    res.status(404).json({nopostfound: 'No post found with that ID'});
   }
 };
 
@@ -84,7 +85,7 @@ exports.getComment = async (req, res) => {
 
     // Check if comment exists
     if (post.comments.filter(comment => comment._id.toString() === req.params.comment_id).length === 0) {
-      return res.status(404).json({ commentnotexists: 'Comment does not exist' });
+      return res.status(404).json({commentnotexists: 'Comment does not exist'});
     }
 
     // Get comment index
@@ -93,7 +94,7 @@ exports.getComment = async (req, res) => {
     res.json(post.comments[index]);
   } catch (err) {
     console.log(err);
-    res.status(404).json({ postnotfound: 'No post found' });
+    res.status(404).json({postnotfound: 'No post found'});
   }
 };
 
@@ -101,7 +102,7 @@ exports.getComment = async (req, res) => {
 // @desc    Add comment to post
 // @access  Private
 exports.postComment = async (req, res) => {
-  const { errors, isValid } = validatePostInput(req.body);
+  const {errors, isValid} = validateCommentInput(req.body);
 
   // Check Validation
   if (!isValid) {
@@ -113,10 +114,10 @@ exports.postComment = async (req, res) => {
     const post = await Post.findById(req.params.id);
 
     const newComment = {
-      text: req.body.text,
+      content: req.body.content,
       name: req.body.name,
       avatar: req.body.avatar,
-      user: req.user.id
+      user: req.user.id,
     };
 
     post.comments.unshift(newComment);
@@ -125,7 +126,7 @@ exports.postComment = async (req, res) => {
     res.json(post);
   } catch (err) {
     console.log(err.message);
-    res.status(404).json({ postnotfound: 'No post found' });
+    res.status(404).json({postnotfound: 'No post found'});
   }
 };
 
@@ -138,7 +139,7 @@ exports.deleteComment = async (req, res) => {
 
     // Check if comment exists
     if (post.comments.filter(comment => comment._id.toString() === req.params.comment_id).length === 0) {
-      return res.status(404).json({ commentnotexists: 'Comment does not exist' });
+      return res.status(404).json({commentnotexists: 'Comment does not exist'});
     }
 
     // Get remove index
@@ -150,7 +151,7 @@ exports.deleteComment = async (req, res) => {
     res.json(post);
   } catch (err) {
     console.log(err.message);
-    res.status(404).json({ postnotfound: 'No post found' });
+    res.status(404).json({postnotfound: 'No post found'});
   }
 };
 
@@ -162,15 +163,15 @@ exports.likePost = async (req, res) => {
     const post = await Post.findById(req.params.id);
 
     if (post.likes.filter(like => like.user.toString() === req.user.id).length > 0) {
-      return res.status(400).json({ alreadyliked: 'User already liked this post' });
+      return res.status(400).json({alreadyliked: 'User already liked this post'});
     }
 
-    post.likes.unshift({ user: req.user.id });
+    post.likes.unshift({user: req.user.id});
     await post.save();
     res.json(post);
   } catch (err) {
     console.log(err.message);
-    res.status(404).json({ postnotfound: 'No post found' });
+    res.status(404).json({postnotfound: 'No post found'});
   }
 };
 
@@ -182,7 +183,7 @@ exports.unlikePost = async (req, res) => {
     const post = await Post.findById(req.params.id);
 
     if (post.likes.filter(like => like.user.toString() === req.user.id).length === 0) {
-      return res.status(400).json({ notliked: 'You have not yet liked this post' });
+      return res.status(400).json({notliked: 'You have not yet liked this post'});
     }
 
     const removeIndex = post.likes.map(item => item.user.toString()).indexOf(req.user.id);
@@ -193,6 +194,6 @@ exports.unlikePost = async (req, res) => {
     res.json(post);
   } catch (err) {
     console.log(err.message);
-    res.status(404).json({ postnotfound: 'No post found' });
+    res.status(404).json({postnotfound: 'No post found'});
   }
 };

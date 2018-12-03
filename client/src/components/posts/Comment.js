@@ -1,9 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { deleteComment } from '../../actions/postActions';
+import {connect} from 'react-redux';
+import {deleteComment} from '../../actions/postActions';
 
 function Comment(props) {
-  const { comment, postId, auth, deleteComment } = props;
+  const {comment, postId, auth, deleteComment} = props;
 
   return (
     <div className="media">
@@ -17,7 +17,7 @@ function Comment(props) {
       </div>
 
       <div className="media-body">
-        <p className="lead">{comment.text}</p>
+        <p className="lead">{comment.content}</p>
         {comment.user === auth.user.id ? (
           <small>
             <a
@@ -26,8 +26,7 @@ function Comment(props) {
                 e.preventDefault();
                 deleteComment(postId, comment._id);
               }}
-              className="text-danger mr-1"
-            >
+              className="text-danger mr-1">
               Delete
             </a>
           </small>
@@ -37,9 +36,9 @@ function Comment(props) {
   );
 }
 
-const mapStatetoProps = state => ({ auth: state.auth });
+const mapStatetoProps = state => ({auth: state.auth});
 
 export default connect(
   mapStatetoProps,
-  { deleteComment }
+  {deleteComment},
 )(Comment);

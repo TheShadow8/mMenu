@@ -13,8 +13,8 @@ const app = express();
 // Body parser middleware
 app.use(
   bodyParser.urlencoded({
-    extended: false
-  })
+    extended: false,
+  }),
 );
 app.use(bodyParser.json());
 
@@ -28,7 +28,7 @@ const db = require('./config/dev_keys').mongoURI;
 mongoose
   .connect(
     db,
-    { useNewUrlParser: true }
+    {useNewUrlParser: true},
   )
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
