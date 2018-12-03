@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React, {Component} from 'react';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
-import { setCurrentUser } from './actions/authActions';
+import {setCurrentUser} from './actions/authActions';
 
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
 import store from './store';
 
-import PrivateRoute from './components/common/PrivateRoute';
+import PrivateRoute from './components/Common/PrivateRoute';
 import ScrollToTop from './utils/ScrollToTop';
 
-import Landing from './components/layout/Landing';
-import Menuboard from './components/layout/Menuboard';
-import AddPost from './components/posts/AddPost';
-import PostItem from './components/posts/PostItem';
-import Profile from './components/profile/Profile';
+import Landing from './components/Layout/Landing';
+import Menuboard from './components/Layout/Menuboard';
+import AddPost from './components/Posts/AddPost';
+import PostItem from './components/Posts/PostItem';
+import Profile from './components/Profile/Profile';
 
 import './App.css';
 
@@ -43,8 +43,8 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <ScrollToTop>
+            <Route exact path="/" component={Landing} />
             <div className="App">
-              <Route exact path="/" component={Landing} />
               <div className="container">
                 <Switch>
                   <PrivateRoute exact path="/menuboard" component={Menuboard} />

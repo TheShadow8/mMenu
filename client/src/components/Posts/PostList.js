@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
-import Posts from './Posts';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {getPosts} from '../../actions/postActions';
+
+import PostThumbs from './PostThumbs/PostThumbs';
+
 export class PostList extends Component {
   componentDidMount() {
     this.props.getPosts();
@@ -14,12 +17,17 @@ export class PostList extends Component {
     if (posts === null || loading || Object.keys(posts).length === 0) {
       postContent = null;
     } else {
-      postContent = <Posts className="row" posts={posts} />;
+      postContent = <PostThumbs className="row" posts={posts} />;
     }
 
     return <div>{postContent}</div>;
   }
 }
+
+PostList.propTypes = {
+  getPosts: PropTypes.func.isRequired,
+  post: PropTypes.object.isRequired,
+};
 
 const mapStateToProps = state => ({
   post: state.post,

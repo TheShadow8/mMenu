@@ -1,10 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+
 import {deleteComment} from '../../actions/postActions';
 
-function Comment(props) {
-  const {comment, postId, auth, deleteComment} = props;
-
+function Comment({comment, postId, auth, deleteComment}) {
   return (
     <div className="media">
       {/* TODO: link to user profile */}
@@ -35,6 +35,13 @@ function Comment(props) {
     </div>
   );
 }
+
+Comment.propTypes = {
+  auth: PropTypes.object.isRequired,
+  comment: PropTypes.object.isRequired,
+  postId: PropTypes.string.isRequired,
+  deleteComment: PropTypes.func.isRequired,
+};
 
 const mapStatetoProps = state => ({auth: state.auth});
 

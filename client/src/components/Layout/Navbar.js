@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 import propTypes from 'prop-types';
-import { logoutUser } from '../../actions/authActions';
+
+import {logoutUser} from '../../actions/authActions';
 
 class Navbar extends Component {
   onLogoutClick(e) {
@@ -17,15 +18,7 @@ class Navbar extends Component {
           <i className="fab fa-monero fa-2x" />
           menu
         </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarColor03"
-          aria-controls="navbarColor03"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon" />
         </button>
 
@@ -68,7 +61,7 @@ class Navbar extends Component {
 }
 
 Navbar.propTypes = {
-  logoutUser: propTypes.func.isRequired
+  logoutUser: propTypes.func.isRequired,
 };
 
 // const mapPropsToState = state => ({
@@ -77,5 +70,5 @@ Navbar.propTypes = {
 
 export default connect(
   null,
-  { logoutUser }
+  {logoutUser},
 )(Navbar);

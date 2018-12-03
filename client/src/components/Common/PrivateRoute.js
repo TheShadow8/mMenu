@@ -1,10 +1,11 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
+import {Route, Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
 import propTypes from 'prop-types';
-import Navbar from '../layout/Navbar';
 
-const PrivateRoute = ({ component: Component, auth, ...rest }) => (
+import Navbar from '../Layout/Navbar';
+
+const PrivateRoute = ({component: Component, auth, ...rest}) => (
   <Route
     {...rest}
     render={props =>
@@ -21,11 +22,11 @@ const PrivateRoute = ({ component: Component, auth, ...rest }) => (
 );
 
 PrivateRoute.propTypes = {
-  auth: propTypes.object.isRequired
+  auth: propTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps)(PrivateRoute);

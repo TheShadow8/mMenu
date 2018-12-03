@@ -1,50 +1,6 @@
+.App {
+  /* background-image: url('./img/bg.jpg'); */
 
-img {
-  width: 100%;
-}
-
-a:hover, a:focus {
-    text-decoration: none;
-}
-
-.landing {
-  position: relative;
-  background: url('./img/breakfast.jpg') no-repeat;
   background-size: cover;
-  background-position: center;
-  height: 100vh;
+  background-position: top center;
 }
-
-
-.dark-overlay {
-  background-color: rgba(0, 0, 0, 0.7);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-/* .card-form {
-  opacity: 0.9;
-}
-
-.latest-profiles-img {
-  width: 40px;
-  height: 40px;
-}
-
-.form-control::placeholder {
-  color: #bbb !important;
-} */
-
-.login-nav {
-  height: 125px;
-}
-
-
-.main-center{
-  max-width: 600px;
-  margin-top: 100px;
-}
-

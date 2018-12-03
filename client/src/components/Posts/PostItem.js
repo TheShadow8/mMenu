@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { getPost } from '../../actions/postActions';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {getPost} from '../../actions/postActions';
 
 import CommentList from './CommentList';
 import Likes from './Likes';
@@ -12,7 +13,7 @@ export class PostItem extends Component {
   }
 
   render() {
-    const { post, loading } = this.props.post;
+    const {post, loading} = this.props.post;
 
     let postContent;
 
@@ -39,11 +40,16 @@ export class PostItem extends Component {
   }
 }
 
+PostItem.propTypes = {
+  getPost: PropTypes.func.isRequired,
+  post: PropTypes.object.isRequired,
+};
+
 const mapStateToProps = state => ({
-  post: state.post
+  post: state.post,
 });
 
 export default connect(
   mapStateToProps,
-  { getPost }
+  {getPost},
 )(PostItem);

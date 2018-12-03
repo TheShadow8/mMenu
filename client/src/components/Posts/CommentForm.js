@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
+
 import {addComment} from '../../actions/postActions';
+
+import TextAreaFieldGroup from '../Common/TextAreaFieldGroup';
 
 class CommentForm extends Component {
   constructor(props) {
@@ -50,7 +53,13 @@ class CommentForm extends Component {
           <div className="card-body">
             <form onSubmit={this.onSubmit}>
               <div className="form-group">
-                <TextAreaFieldGroup placeholder="Reply to post" name="content" value={this.state.content} onChange={this.onChange} error={errors.content} />
+                <TextAreaFieldGroup
+                  placeholder="Reply to post"
+                  name="content"
+                  value={this.state.content}
+                  onChange={this.onChange}
+                  error={errors.content}
+                />
               </div>
               <button type="submit" className="btn btn-dark">
                 Send
@@ -62,6 +71,13 @@ class CommentForm extends Component {
     );
   }
 }
+
+CommentForm.propTypes = {
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+  postId: PropTypes.string.isRequired,
+  addComment: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => ({
   auth: state.auth,

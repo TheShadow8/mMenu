@@ -1,10 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import classnames from 'classnames';
-import { likePost, unlikePost } from '../../actions/postActions';
+import {likePost, unlikePost} from '../../actions/postActions';
 
 function Likes(props) {
-  const { post } = props;
+  const {post} = props;
 
   return (
     <div className="mb-1">
@@ -12,12 +13,11 @@ function Likes(props) {
         onClick={() => onLikeClick(props, post._id)}
         type="button"
         className={classnames('btn btn-light mr-1', {
-          disabled: findUserLike(props, post.likes)
-        })}
-      >
+          disabled: findUserLike(props, post.likes),
+        })}>
         <i
           className={classnames('fas fa-thumbs-up', {
-            'text-info': findUserLike(props, post.likes)
+            'text-info': findUserLike(props, post.likes),
           })}
         />
         <span className="badge badge-light">{post.likes.length}</span>
@@ -26,9 +26,8 @@ function Likes(props) {
         onClick={() => onUnlikeClick(props, post._id)}
         type="button"
         className={classnames('btn btn-light mr-1', {
-          ' disabled': !findUserLike(props, post.likes)
-        })}
-      >
+          ' disabled': !findUserLike(props, post.likes),
+        })}>
         <i className="text-secondary fas fa-thumbs-down" />
       </button>
     </div>
@@ -44,7 +43,7 @@ const onUnlikeClick = (props, id) => {
 };
 
 const findUserLike = (props, likes) => {
-  const { auth } = props;
+  const {auth} = props;
   if (likes.filter(like => like.user === auth.user.id).length > 0) {
     return true;
   } else {
@@ -52,11 +51,17 @@ const findUserLike = (props, likes) => {
   }
 };
 
+Likes.propTypes = {
+  post: PropTypes.object.isRequired,
+  likePost: PropTypes.func.isRequired,
+  unlikePost: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
 });
 
 export default connect(
   mapStateToProps,
-  { likePost, unlikePost }
+  {likePost, unlikePost},
 )(Likes);

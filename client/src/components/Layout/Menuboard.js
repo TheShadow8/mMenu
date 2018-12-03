@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import PostList from '../posts/PostList';
+import React, {Component} from 'react';
+
+import PostList from '../Posts/PostList';
 
 class Menuboard extends Component {
   render() {
