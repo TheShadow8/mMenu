@@ -14,7 +14,7 @@ const User = require('../models/User');
 // @desc Register user
 // @access Public
 exports.postRegister = async (req, res) => {
-  const { errors, isValid } = validateRegisterInput(req.body);
+  const {errors, isValid} = validateRegisterInput(req.body);
 
   // Check validation
   if (!isValid) {
@@ -22,7 +22,7 @@ exports.postRegister = async (req, res) => {
   }
 
   try {
-    const user = await User.findOne({ email: req.body.emailReg });
+    const user = await User.findOne({email: req.body.emailReg});
     if (user) {
       errors.emailReg = 'Email already exists';
       return res.status(400).json(errors);
@@ -30,13 +30,13 @@ exports.postRegister = async (req, res) => {
       const avatar = gravatar.url(req.body.emailReg, {
         s: '200',
         r: 'pg',
-        d: 'mm'
+        d: 'mm',
       });
       const newUserData = new User({
         name: req.body.name,
         email: req.body.emailReg,
         avatar,
-        password: req.body.passwordReg
+        password: req.body.passwordReg,
       });
 
       // Bcrypt the password
@@ -59,7 +59,7 @@ exports.postRegister = async (req, res) => {
 // @desc Login user / Returning JWT token
 // @access Public
 exports.postLogin = async (req, res) => {
-  const { errors, isValid } = validateLoginInput(req.body);
+  const {errors, isValid} = validateLoginInput(req.body);
 
   // Check validation
   if (!isValid) {
@@ -70,7 +70,7 @@ exports.postLogin = async (req, res) => {
   const password = req.body.password;
 
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({email});
 
     // Check for user
     if (!user) {
@@ -86,14 +86,14 @@ exports.postLogin = async (req, res) => {
         id: user.id,
         name: user.name,
         avatar: user.avatar,
-        bio: user.bio || 'Hello everyone'
+        bio: user.bio || 'Hello everyone',
       };
 
       // Sign Token
-      jwt.sign(payload, keys.secretOrkey, { expiresIn: 3600 }, (err, token) => {
+      jwt.sign(payload, keys.secretOrkey, {expiresIn: 3600}, (err, token) => {
         res.json({
           success: true,
-          token: 'Bearer ' + token
+          token: 'Bearer ' + token,
         });
       });
     } else {
@@ -112,6 +112,34 @@ exports.postCurrent = (req, res) => {
   res.json({
     id: req.user.id,
     name: req.user.name,
-    email: req.user.email
+    email: req.user.email,
   });
+};
+
+// @route POST api/users/
+// @desc Change user profile
+// @access Private
+exports.postProfile = async (req, res) => {
+  try {
+    console.log(req.user, req.body);
+    // Check for user
+    if (!req.user) {
+      errors.profile = 'User not found';
+      return res.status(404).json(errors);
+    }
+
+    const newProfile = await User.findOneAndUpdate(
+      {_id: req.user.id},
+      {
+        $set: {
+          name: req.body.name,
+          bio: req.body.bio,
+          avatar: req.body.avatar,
+        },
+      },
+    );
+    res.json(newProfile);
+  } catch (err) {
+    res.status(400).json({nochange: 'Can not change profile, please try again'});
+  }
 };

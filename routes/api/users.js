@@ -17,6 +17,11 @@ router.post('/login', userController.postLogin);
 // @route POST api/users/current
 // @desc Return current user
 // @access Private
-router.get('/current', passport.authenticate('jwt', { session: false }), userController.postCurrent);
+router.get('/current', passport.authenticate('jwt', {session: false}), userController.postCurrent);
+
+// @route POST api/users/
+// @desc Change user profile
+// @access Private
+router.post('/', passport.authenticate('jwt', {session: false}), userController.postProfile);
 
 module.exports = router;
