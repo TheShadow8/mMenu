@@ -1,4 +1,4 @@
-.thumbnails {
+.post-thumbnails {
   display: -moz-flex;
   display: -webkit-flex;
   display: -ms-flex;
@@ -11,7 +11,7 @@
   margin: 0 0 1em -1em;
 }
 
-.thumbnails a {
+.post-thumbnails a {
   -moz-transition: all 0.2s ease;
   -webkit-transition: all 0.2s ease;
   -ms-transition: all 0.2s ease;
@@ -29,23 +29,23 @@
   overflow: hidden;
 }
 
-.thumbnails a img {
+.post-thumbnails a img {
   display: block;
   width: 100%;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
 
-.thumbnails a h3 {
+.post-thumbnails a h3 {
   margin: 1em;
 }
 
-.thumbnails a:hover {
+.post-thumbnails a:hover {
   background-color: rgba(255, 255, 255, 0.25);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25), 0 0 0.5em 0 #ff6382;
 }
 
-.thumbnails > div {
+.post-thumbnails > div {
   display: -moz-flex;
   display: -webkit-flex;
   display: -ms-flex;
@@ -58,73 +58,73 @@
   padding-left: 1em;
 }
 
-.thumbnails > div > :last-child {
+.post-thumbnails > div > :last-child {
   margin-bottom: 0;
 }
 
 @media screen and (max-width: 1280px) {
-  .thumbnails {
+  .post-thumbnails {
     margin: 0 0 2em -1.5em;
   }
 
-  .thumbnails a {
+  .post-thumbnails a {
     margin: 0 0 1.5em 0;
   }
 
-  .thumbnails > div {
+  .post-thumbnails > div {
     padding-left: 1.5em;
   }
 }
 
 @media screen and (max-width: 980px) {
-  .thumbnails h3 {
+  .post-thumbnails h3 {
     font-size: 0.8em;
   }
 }
 
 @media screen and (max-width: 480px) {
-  .thumbnails {
+  .post-thumbnails {
     display: block;
   }
 
-  .thumbnails a {
+  .post-thumbnails a {
     margin: 0 0 2em 0 !important;
   }
 
-  .thumbnails > div {
+  .post-thumbnails > div {
     display: block;
     width: 100%;
   }
 
-  .thumbnails > div:last-child > :last-child {
+  .post-thumbnails > div:last-child > :last-child {
     margin-bottom: 0 !important;
   }
 
-  .thumbnails h3 {
+  .post-thumbnails h3 {
     font-size: 1em;
   }
 }
 
-.box {
+.post-thumbnails__box {
   position: relative;
   box-sizing: border-box;
   display: inline-block;
 }
 
-.box .imgBox {
+.post-thumbnails__box .post-thumbnails__box--imgBox {
   position: relative;
 }
 
-.box .imgBox img {
+.post-thumbnails__box .post-thumbnails__box--imgBox img {
   max-width: 100%;
   transition: transform 2s;
 }
 
-.box .imgBox:hover img {
+.post-thumbnails__box .post-thumbnails__box--imgBox:hover img {
   transform: scale(1.2);
 }
 
-.details {
+.post-thumbnails__box--details {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -135,11 +135,11 @@
   transition: transform 0.5s;
 }
 
-.box:hover .details {
+.post-thumbnails__box:hover .post-thumbnails__box--details {
   transform: scaleY(1);
 }
 
-.box .details .content {
+.post-thumbnails__box .post-thumbnails__box--details .post-thumbnails__box--details---content {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -148,8 +148,8 @@
   color: #fff;
 }
 
-.box .details .content h2 {
+.post-thumbnails__box .post-thumbnails__box--details .post-thumbnails__box--details---content h2 {
   margin: 0;
   padding: 0;
-  font-size: 20px;
+  font-size: 25px;
 }

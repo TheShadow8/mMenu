@@ -21,7 +21,7 @@ function PostThumbs({posts}) {
   });
 
   postThumbs = (
-    <div className=" col-12 thumbnails">
+    <div className="col-12 post-thumbnails">
       <div>
         <PostColumn posts={postsColOne} />
       </div>
