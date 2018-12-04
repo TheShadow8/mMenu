@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {getPost} from '../../actions/postActions';
+import {getPost, deletePost} from '../../actions/postActions';
 
 import CommentList from './CommentList';
 import Likes from './Likes';
@@ -12,9 +12,13 @@ export class PostItem extends Component {
     this.props.getPost(this.props.match.params.id);
   }
 
+  onDeleteClick = postId => {
+    this.props.deletePost(postId, this.props.history);
+  };
   render() {
     const {post, loading} = this.props.post;
 
+    console.log(this.props.auth);
     let postContent;
 
     if (post === null || loading || Object.keys(post).length === 0) {
@@ -24,11 +28,18 @@ export class PostItem extends Component {
         <div className=" col-sm-12 align-self-center ">
           <img className="img-thumbnail mx-auto d-block w-75 w-75" src={post.imagePath} alt="" />
 
-          <h3 className="mt-1">{post.title}</h3>
+          <h3 className="mt-1">
+            {post.title}
+            {post.user === this.props.auth.user.id ? (
+              <button type="button" onClick={() => this.onDeleteClick(post._id)} className="btn btn-danger mr-1">
+                <i className="fas fa-times" />
+              </button>
+            ) : null}
+          </h3>
           <h6>
             by <span className="lead">{post.name}</span>
           </h6>
-          <pre>{post.content} </pre>
+          <h6>{post.content}</h6>
           <Likes post={post} />
           <CommentForm postId={post._id} />
           <CommentList comments={post.comments} postId={post._id} />
@@ -47,9 +58,10 @@ PostItem.propTypes = {
 
 const mapStateToProps = state => ({
   post: state.post,
+  auth: state.auth,
 });
 
 export default connect(
   mapStateToProps,
-  {getPost},
+  {getPost, deletePost},
 )(PostItem);

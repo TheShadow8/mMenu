@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import {ADD_POST, GET_ERRORS, CLEAR_ERRORS, GET_POSTS, GET_USER_POSTS, GET_POST, POST_LOADING, GET_COMMENT} from './types';
+import {ADD_POST, GET_ERRORS, CLEAR_ERRORS, GET_POSTS, GET_USER_POSTS, GET_POST, DELETE_POST, POST_LOADING, GET_COMMENT} from './types';
 
 // Get Posts
 export const getPosts = () => async dispatch => {
@@ -71,6 +71,24 @@ export const getPost = postId => async dispatch => {
     dispatch({
       type: GET_POST,
       payload: null,
+    });
+  }
+};
+
+//Delete Post
+export const deletePost = (postId, history) => async dispatch => {
+  try {
+    dispatch(setPostLoading());
+    await axios.delete(`/api/posts/${postId}`);
+    dispatch({
+      type: DELETE_POST,
+      payload: postId,
+    });
+    history.push('/profile');
+  } catch (err) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
     });
   }
 };

@@ -1,10 +1,11 @@
 const Post = require('../models/Post');
+const User = require('../models/User');
 const {validatePostInput, validateCommentInput} = require('../validation/post');
 const uploadImage = require('../middleware/uploadImage');
 
 // @route   GET api/posts
 // @desc    Get posts
-// @access  Public
+// @access  Private
 exports.getPosts = async (req, res) => {
   try {
     const posts = await Post.find().sort({date: -1});
@@ -66,7 +67,7 @@ exports.postPost = (req, res) => {
 
 // @route   GET api/posts/:id
 // @desc    Get post by id
-// @access  Public
+// @access  Private
 exports.getPost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -76,9 +77,27 @@ exports.getPost = async (req, res) => {
   }
 };
 
+// @route   DELETE api/posts/:id
+// @desc    Delete post by id
+// @access  Private
+exports.deletePost = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    const post = await Post.findById(req.params.id);
+
+    if (post.user.toString() !== user._id.toString()) {
+      return res.status(401).json({notauthorized: 'User not authorized'});
+    }
+
+    // Delete
+    post.remove().then(() => res.json({success: true}));
+  } catch (err) {
+    res.status(404).json({nopostfound: 'No post found with that ID'});
+  }
+};
 // @route   Get api/posts/comment/:id/:comment_id
 // @desc    Get comment
-// @access  Public
+// @access  Private
 exports.getComment = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);

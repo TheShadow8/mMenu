@@ -62,7 +62,7 @@ class Register extends Component {
 
     return (
       <div className="container main-center">
-        <h1 className="pb-4 text-center">Looking for some food ?</h1>
+        <h1 className="landing__title pb-4 text-center">Looking for some food ?</h1>
         {registed}
         <form
           className={classnames('form-horizontal', {
@@ -70,11 +70,35 @@ class Register extends Component {
           })}
           noValidate
           onSubmit={this.onSubmit}>
-          <TextFieldGroup label="Name:" placeholder="Your Name" name="name" type="text" value={this.state.name} onChange={this.onChange} error={errors.name} />
+          <TextFieldGroup
+            label="Name:"
+            placeholder="Your Name"
+            name="name"
+            type="text"
+            value={this.state.name}
+            onChange={this.onChange}
+            error={errors.name}
+          />
 
-          <TextFieldGroup label="Email:" placeholder="Email Address" name="emailReg" type="email" value={this.state.emailReg} onChange={this.onChange} error={errors.emailReg} />
+          <TextFieldGroup
+            label="Email:"
+            placeholder="Email Address"
+            name="emailReg"
+            type="email"
+            value={this.state.emailReg}
+            onChange={this.onChange}
+            error={errors.emailReg}
+          />
 
-          <TextFieldGroup label="Password:" placeholder="Password" name="passwordReg" type="password" value={this.state.passwordReg} onChange={this.onChange} error={errors.passwordReg} />
+          <TextFieldGroup
+            label="Password:"
+            placeholder="Password"
+            name="passwordReg"
+            type="password"
+            value={this.state.passwordReg}
+            onChange={this.onChange}
+            error={errors.passwordReg}
+          />
 
           <TextFieldGroup
             label="Confirm Password:"

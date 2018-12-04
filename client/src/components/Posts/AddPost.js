@@ -7,6 +7,7 @@ import {Link} from 'react-router-dom';
 import {generateBase64FromImage} from '../../utils/image';
 import {addPost} from '../../actions/postActions';
 
+import './AddPost.css';
 import TextFieldGroup from '../Common/TextFieldGroup';
 import TextAreaFieldGroup from '../Common/TextAreaFieldGroup';
 import Image from '../Common/Image';
@@ -61,9 +62,9 @@ export class AddPost extends Component {
 
     return (
       <div className="row">
-        <div className="col-sm-12 align-self-center">
+        <div className="col-sm-12 align-self-center ">
           {errors.postError && <div className="text-danger mt-0">{errors.postError}</div>}
-          <form className="form-group" onSubmit={this.onSubmit}>
+          <form className="form-group w-75 mx-auto" onSubmit={this.onSubmit}>
             <TextFieldGroup placeholder="Introdution !" name="title" value={this.state.title} onChange={this.onChange} error={errors.title} />
             <TextAreaFieldGroup
               placeholder="Direction :) "

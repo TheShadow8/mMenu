@@ -13,7 +13,7 @@ class Navbar extends Component {
 
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar-light mt-3 mb-5">
+      <nav className="navbar navbar-expand-lg navbar-dark mt-3 mb-5" style={{backgroundColor: '#222'}}>
         <Link className="navbar-brand" to="/">
           <i className="fab fa-monero fa-2x" />
           menu

@@ -5,8 +5,8 @@ import {connect} from 'react-redux';
 export class User extends Component {
   render() {
     return (
-      <div className="media  col-sm-12 align-self-center ">
-        <img className="mr-3" src={this.props.user.avatar} style={{width: '100px'}} alt="" />
+      <div className="media align-self-center ">
+        <img className="mr-3 rounded-circle " src={this.props.user.avatar} style={{width: '100px'}} alt="" />
         <div className="media-body">
           <h5 className="mt-0">{this.props.user.name}</h5>
           {this.props.user.bio}

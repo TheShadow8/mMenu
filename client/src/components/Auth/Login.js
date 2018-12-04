@@ -53,20 +53,43 @@ class Login extends Component {
   render() {
     const {errors} = this.state;
     return (
-      <nav className="navbar navbar-lg navbar-expand-lg navbar-transparant navbar-dark login-nav">
-        <a className="navbar-brand mb-2" href="/">
-          {' '}
-          <i className="fab fa-monero fa-2x" /> menu
-        </a>
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon" />
-        </button>
-        <div className="collapse navbar-collapse" id="navbarCollapse">
+      <div className="container">
+        <nav className="navbar navbar-lg navbar-expand-lg navbar-transparant navbar-dark login-nav">
+          <a className="navbar-brand mb-2" href="/">
+            <i className="fab fa-monero fa-2x" /> menu
+          </a>
+          {/* <button
+            className="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarCollapse"
+            aria-controls="navbarCollapse"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon" />
+          </button> */}
+
           <ul className="navbar-nav ml-auto">
             <form className="row" onSubmit={this.onSubmit}>
-              <TextFieldGroup label="Email:" placeholder="Email Address" name="email" type="email" value={this.state.email} onChange={this.onChange} error={errors.email} />
+              <TextFieldGroup
+                label="Email:"
+                placeholder="Email Address"
+                name="email"
+                type="email"
+                value={this.state.email}
+                onChange={this.onChange}
+                error={errors.email}
+              />
 
-              <TextFieldGroup label="Password:" placeholder="Password" name="password" type="password" value={this.state.password} onChange={this.onChange} error={errors.password} />
+              <TextFieldGroup
+                label="Password:"
+                placeholder="Password"
+                name="password"
+                type="password"
+                value={this.state.password}
+                onChange={this.onChange}
+                error={errors.password}
+              />
 
               <div className="m-auto">
                 <button type="submit" className="btn btn-success">
@@ -75,8 +98,8 @@ class Login extends Component {
               </div>
             </form>
           </ul>
-        </div>
-      </nav>
+        </nav>
+      </div>
     );
   }
 }
