@@ -18,19 +18,18 @@ export class PostItem extends Component {
   render() {
     const {post, loading} = this.props.post;
 
-    console.log(this.props.auth);
     let postContent;
 
     if (post === null || loading || Object.keys(post).length === 0) {
       postContent = null;
     } else {
       postContent = (
-        <div className=" col-sm-12 align-self-center ">
-          <img className="img-thumbnail mx-auto d-block w-75 w-75" src={post.imagePath} alt="" />
+        <div className=" col-sm-12 align-self-center text-white ">
+          <img className="img-thumbnail mx-auto d-block " src={post.imagePath} alt="" />
 
           <h3 className="mt-1">
             {post.title}
-            {post.user === this.props.auth.user.id ? (
+            {post.user === this.props.auth.user._id ? (
               <button type="button" onClick={() => this.onDeleteClick(post._id)} className="btn btn-danger mr-1">
                 <i className="fas fa-times" />
               </button>

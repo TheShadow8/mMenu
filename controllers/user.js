@@ -2,6 +2,7 @@ const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const keys = require('../config/dev_keys');
+const uploadImage = require('../middleware/uploadImage');
 
 // Load Input Validation
 const validateRegisterInput = require('../validation/register');
@@ -83,7 +84,7 @@ exports.postLogin = async (req, res) => {
     if (isMatch) {
       // User matched
       const payload = {
-        id: user.id,
+        _id: user.id,
         name: user.name,
         avatar: user.avatar,
         bio: user.bio || 'Hello everyone',
@@ -110,7 +111,7 @@ exports.postLogin = async (req, res) => {
 // @access Private
 exports.postCurrent = (req, res) => {
   res.json({
-    id: req.user.id,
+    _id: req.user._id,
     name: req.user.name,
     email: req.user.email,
   });
@@ -119,27 +120,43 @@ exports.postCurrent = (req, res) => {
 // @route POST api/users/
 // @desc Change user profile
 // @access Private
-exports.postProfile = async (req, res) => {
-  try {
-    console.log(req.user, req.body);
-    // Check for user
-    if (!req.user) {
-      errors.profile = 'User not found';
-      return res.status(404).json(errors);
+exports.postProfile = (req, res) => {
+  uploadImage(req, res, async err => {
+    console.log(req.body);
+    if (err) {
+      console.log(err);
+      return res.status(400).json({invalidError: 'Invalid image file'});
     }
 
-    const newProfile = await User.findOneAndUpdate(
-      {_id: req.user.id},
-      {
-        $set: {
-          name: req.body.name,
-          bio: req.body.bio,
-          avatar: req.body.avatar,
+    const url = req.protocol + '://' + req.get('host');
+
+    try {
+      // console.log(req.user, req.body);
+      // Check for user
+      if (!req.user) {
+        errors.profile = 'User not found';
+        return res.status(404).json(errors);
+      }
+
+      const newProfile = {};
+
+      if (req.body.name) newProfile.name = req.body.name;
+      if (req.body.bio) newProfile.bio = req.body.bio;
+      if (req.file) newProfile.avatar = url + '/images/' + req.file.filename;
+
+      const user = await User.findOneAndUpdate(
+        {_id: req.user.id},
+        {
+          $set: newProfile,
         },
-      },
-    );
-    res.json(newProfile);
-  } catch (err) {
-    res.status(400).json({nochange: 'Can not change profile, please try again'});
-  }
+        {new: true},
+      );
+      // const newProfile = await user.save();
+
+      res.json(user);
+    } catch (err) {
+      console.log(err);
+      res.status(400).json({nochange: 'Can not change profile, please try again'});
+    }
+  });
 };

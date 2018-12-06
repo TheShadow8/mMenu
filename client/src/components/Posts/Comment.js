@@ -9,16 +9,15 @@ function Comment({comment, postId, auth, deleteComment}) {
     <div className="media">
       {/* TODO: link to user profile */}
 
-      <div className="col-1 mr-3">
-        <a href="">
-          <img className="rounded-circle " src={comment.avatar} alt="" />
-        </a>
-        <p className="text-center ">{comment.name}</p>
+      <div className="col-2 mr-3">
+        <img className="rounded-circle " src={comment.avatar} alt="" />
+
+        <h6 className="text-center">{comment.name}</h6>
       </div>
 
       <div className="media-body">
         <p className="lead">{comment.content}</p>
-        {comment.user === auth.user.id ? (
+        {comment.user === auth.user._id ? (
           <small>
             <a
               href=""

@@ -48,7 +48,7 @@ exports.postPost = (req, res) => {
 
     try {
       const newPostData = new Post({
-        user: req.user.id,
+        user: req.user._id,
         name: req.body.name,
         avatar: req.body.avatar,
         title: req.body.title,
@@ -82,7 +82,7 @@ exports.getPost = async (req, res) => {
 // @access  Private
 exports.deletePost = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user._id);
     const post = await Post.findById(req.params.id);
 
     if (post.user.toString() !== user._id.toString()) {
@@ -136,7 +136,7 @@ exports.postComment = async (req, res) => {
       content: req.body.content,
       name: req.body.name,
       avatar: req.body.avatar,
-      user: req.user.id,
+      user: req.user._id,
     };
 
     post.comments.unshift(newComment);
@@ -181,11 +181,11 @@ exports.likePost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
-    if (post.likes.filter(like => like.user.toString() === req.user.id).length > 0) {
+    if (post.likes.filter(like => like.user.toString() === req.user._id).length > 0) {
       return res.status(400).json({alreadyliked: 'User already liked this post'});
     }
 
-    post.likes.unshift({user: req.user.id});
+    post.likes.unshift({user: req.user._id});
     await post.save();
     res.json(post);
   } catch (err) {
@@ -201,11 +201,11 @@ exports.unlikePost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
-    if (post.likes.filter(like => like.user.toString() === req.user.id).length === 0) {
+    if (post.likes.filter(like => like.user.toString() === req.user._id).length === 0) {
       return res.status(400).json({notliked: 'You have not yet liked this post'});
     }
 
-    const removeIndex = post.likes.map(item => item.user.toString()).indexOf(req.user.id);
+    const removeIndex = post.likes.map(item => item.user.toString()).indexOf(req.user._id);
     // Splice out of array
     post.likes.splice(removeIndex, 1);
 

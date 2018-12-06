@@ -39,7 +39,7 @@ class Navbar extends Component {
                 <button className="btn">Add Post</button>
               </Link>
             </li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <a className="nav-link" href="">
                 <i className="far fa-compass fa-2x" />
               </a>
@@ -48,7 +48,7 @@ class Navbar extends Component {
               <a className="nav-link" href="">
                 <i className="far fa-heart fa-2x" />
               </a>
-            </li>
+            </li> */}
             <li className="nav-item">
               <Link className="nav-link" to="/profile">
                 <i className="far fa-user fa-2x" />
