@@ -180,8 +180,9 @@ exports.deleteComment = async (req, res) => {
 exports.likePost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
+    console.log(typeof req.user._id);
 
-    if (post.likes.filter(like => like.user.toString() === req.user._id).length > 0) {
+    if (post.likes.filter(like => like.user.toString() === req.user._id.toString()).length > 0) {
       return res.status(400).json({alreadyliked: 'User already liked this post'});
     }
 
@@ -201,7 +202,7 @@ exports.unlikePost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
-    if (post.likes.filter(like => like.user.toString() === req.user._id).length === 0) {
+    if (post.likes.filter(like => like.user.toString() === req.user._id.toString()).length === 0) {
       return res.status(400).json({notliked: 'You have not yet liked this post'});
     }
 

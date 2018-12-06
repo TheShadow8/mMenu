@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
-import {setCurrentUser} from './actions/authActions';
+import {setCurrentUser, getCurrentUserProfile} from './actions/authActions';
 
 import {Provider} from 'react-redux';
 import store from './store';
@@ -14,6 +14,7 @@ import Landing from './components/Layout/Landing';
 import Menuboard from './components/Layout/Menuboard';
 import AddPost from './components/Posts/AddPost';
 import PostItem from './components/Posts/PostItem';
+import MyProfile from './components/Profile/MyProfile';
 import Profile from './components/Profile/Profile';
 
 import './App.css';
@@ -26,6 +27,9 @@ if (localStorage.jwtToken) {
   const decoded = jwt_decode(localStorage.jwtToken);
   // Set user and isAuthenticated
   store.dispatch(setCurrentUser(decoded));
+
+  // Get current user profile
+  store.dispatch(getCurrentUserProfile(decoded._id));
 
   // Check for exprired token
   const currentTime = Date.now() / 1000;
@@ -58,7 +62,11 @@ class App extends Component {
                 </Switch>
 
                 <Switch>
-                  <PrivateRoute exact path="/profile" component={Profile} />
+                  <PrivateRoute exact path="/profile" component={MyProfile} />
+                </Switch>
+
+                <Switch>
+                  <PrivateRoute exact path="/profile/:id" component={Profile} />
                 </Switch>
               </div>
             </div>

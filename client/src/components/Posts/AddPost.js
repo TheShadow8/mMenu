@@ -44,11 +44,11 @@ export class AddPost extends Component {
   onSubmit = e => {
     e.preventDefault();
 
-    const {user} = this.props.auth;
+    const {profile} = this.props;
 
     const newPost = {
-      name: user.name,
-      avatar: user.avatar,
+      name: profile.name,
+      avatar: profile.avatar,
       title: this.state.title,
       content: this.state.content,
       image: this.state.image,
@@ -102,12 +102,12 @@ export class AddPost extends Component {
 
 AddPost.propTypes = {
   addPost: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth,
+  profile: state.auth.profile,
   errors: state.errors,
 });
 

@@ -8,8 +8,9 @@ const uploadImage = require('../middleware/uploadImage');
 const validateRegisterInput = require('../validation/register');
 const validateLoginInput = require('../validation/login');
 
-// Load User model
+// Load models
 const User = require('../models/User');
+const Profile = require('../models/Profile');
 
 // @route POST api/users/register
 // @desc Register user
@@ -34,9 +35,7 @@ exports.postRegister = async (req, res) => {
         d: 'mm',
       });
       const newUserData = new User({
-        name: req.body.name,
         email: req.body.emailReg,
-        avatar,
         password: req.body.passwordReg,
       });
 
@@ -46,6 +45,13 @@ exports.postRegister = async (req, res) => {
           if (err) throw err;
           newUserData.password = hash;
           const newUser = await newUserData.save();
+
+          await new Profile({
+            user: newUser._id,
+            name: req.body.name,
+            avatar,
+          }).save();
+
           res.json(newUser);
           req.body.isSubmit = true;
         });
@@ -85,9 +91,6 @@ exports.postLogin = async (req, res) => {
       // User matched
       const payload = {
         _id: user.id,
-        name: user.name,
-        avatar: user.avatar,
-        bio: user.bio || 'Hello everyone',
       };
 
       // Sign Token
@@ -106,15 +109,17 @@ exports.postLogin = async (req, res) => {
   }
 };
 
-// @route POST api/users/current
+// @route GET api/users/:id
 // @desc Return current user
 // @access Private
-exports.postCurrent = (req, res) => {
-  res.json({
-    _id: req.user._id,
-    name: req.user.name,
-    email: req.user.email,
-  });
+exports.getProfile = async (req, res) => {
+  try {
+    const profile = await Profile.findOne({user: req.params.id});
+    res.json(profile);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({noprofile: 'No profile found'});
+  }
 };
 
 // @route POST api/users/
@@ -122,7 +127,6 @@ exports.postCurrent = (req, res) => {
 // @access Private
 exports.postProfile = (req, res) => {
   uploadImage(req, res, async err => {
-    console.log(req.body);
     if (err) {
       console.log(err);
       return res.status(400).json({invalidError: 'Invalid image file'});
@@ -144,8 +148,8 @@ exports.postProfile = (req, res) => {
       if (req.body.bio) newProfile.bio = req.body.bio;
       if (req.file) newProfile.avatar = url + '/images/' + req.file.filename;
 
-      const user = await User.findOneAndUpdate(
-        {_id: req.user.id},
+      const profile = await Profile.findOneAndUpdate(
+        {user: req.user._id},
         {
           $set: newProfile,
         },
@@ -153,7 +157,7 @@ exports.postProfile = (req, res) => {
       );
       // const newProfile = await user.save();
 
-      res.json(user);
+      res.json(profile);
     } catch (err) {
       console.log(err);
       res.status(400).json({nochange: 'Can not change profile, please try again'});

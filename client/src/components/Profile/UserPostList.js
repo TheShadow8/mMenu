@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-
-import {getUserPosts} from '../../actions/postActions';
 
 import PostThumbs from '../Posts/PostThumbs/PostThumbs';
 
@@ -21,10 +18,9 @@ export class UserPostList extends Component {
   }
 }
 
-// UserPostList.propTypes = {
-//   auth: PropTypes.object.isRequired,
-//   post: PropTypes.object.isRequired,
-//   getUserPosts: PropTypes.func.isRequired,
-// };
+UserPostList.propTypes = {
+  userPosts: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
+};
 
 export default UserPostList;

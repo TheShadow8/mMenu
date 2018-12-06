@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {GET_ERRORS, SET_CURRENT_USER, IS_REGISTED, EDIT_PROFILE} from './types';
+import {GET_ERRORS, SET_CURRENT_USER, GET_OTHER_USER_PROFILE, GET_CURRENT_USER_PROFILE, IS_REGISTED, EDIT_PROFILE} from './types';
 import setAuthToken from '../utils/setAuthToken';
 import jwt_decode from 'jwt-decode';
 
@@ -34,7 +34,9 @@ export const loginUser = userData => dispatch => {
       setAuthToken(token);
       // Decode token to get user data
       const decoded = jwt_decode(token);
-      // Set curren user
+      // Get current user profile
+      dispatch(getCurrentUserProfile(decoded._id));
+      // Set current user
       dispatch(setCurrentUser(decoded));
     })
     .catch(err =>
@@ -45,12 +47,30 @@ export const loginUser = userData => dispatch => {
     );
 };
 
+// Get current user profile
+export const getCurrentUserProfile = userId => async dispatch => {
+  const res = await axios.get(`/api/users/${userId}`);
+  dispatch({
+    type: GET_CURRENT_USER_PROFILE,
+    payload: res.data,
+  });
+};
+
 // Set logged in user
 export const setCurrentUser = decoded => {
   return {
     type: SET_CURRENT_USER,
     payload: decoded,
   };
+};
+
+// Get other user profile
+export const getOtherUserProfile = userId => async dispatch => {
+  const res = await axios.get(`/api/users/${userId}`);
+  dispatch({
+    type: GET_OTHER_USER_PROFILE,
+    payload: res.data,
+  });
 };
 
 //Edit Profile

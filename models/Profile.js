@@ -5,6 +5,11 @@ const ProfileSchema = {
   user: {
     type: Schema.Types.ObjectId,
     ref: 'user',
+    require: true,
+  },
+  name: {
+    type: String,
+    require: true,
   },
   bio: {
     type: String,

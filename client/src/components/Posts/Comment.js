@@ -1,22 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 
 import {deleteComment} from '../../actions/postActions';
 
 function Comment({comment, postId, auth, deleteComment}) {
   return (
-    <div className="media">
-      {/* TODO: link to user profile */}
-
-      <div className="col-2 mr-3">
-        <img className="rounded-circle " src={comment.avatar} alt="" />
-
-        <h6 className="text-center">{comment.name}</h6>
+    <div className="media mb-3">
+      <div className="col-2 text-center">
+        <Link to={`/profile/${comment.user}`}>
+          <img className="rounded-circle mx-auto" src={comment.avatar} style={{width: '55px', height: '55px'}} alt="" />
+        </Link>
       </div>
 
       <div className="media-body">
-        <p className="lead">{comment.content}</p>
+        <p>
+          <Link className="lead text-white" to={`/profile/${comment.user}`}>
+            {comment.name}
+          </Link>
+          : {comment.content}
+        </p>
         {comment.user === auth.user._id ? (
           <small>
             <a

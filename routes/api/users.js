@@ -14,10 +14,10 @@ router.post('/register', userController.postRegister);
 // @access Public
 router.post('/login', userController.postLogin);
 
-// @route POST api/users/current
-// @desc Return current user
+// @route POST api/users/:id
+// @desc Return current user profile
 // @access Private
-router.get('/current', passport.authenticate('jwt', {session: false}), userController.postCurrent);
+router.get('/:id', passport.authenticate('jwt', {session: false}), userController.getProfile);
 
 // @route POST api/users/
 // @desc Change user profile

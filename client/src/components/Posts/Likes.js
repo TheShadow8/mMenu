@@ -44,7 +44,7 @@ const onUnlikeClick = (props, id) => {
 
 const findUserLike = (props, likes) => {
   const {auth} = props;
-  if (likes.filter(like => like.user === auth.user.id).length > 0) {
+  if (likes.filter(like => like.user === auth.user._id).length > 0) {
     return true;
   } else {
     return false;

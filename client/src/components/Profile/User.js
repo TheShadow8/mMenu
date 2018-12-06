@@ -1,17 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
 function User(props) {
   return (
     <div className="media align-self-center text-white ">
-      <img className="mr-3 rounded-circle " src={props.user.avatar} style={{width: '100px', height: '100px'}} alt="" />
+      <img className="mr-3 rounded-circle " src={props.profile.avatar} style={{width: '100px', height: '100px'}} alt="" />
       <div className="media-body">
-        <h5 className="mt-0">{props.user.name}</h5>
-        {props.user.bio}
+        <h5 className="mt-0">{props.profile.name}</h5>
+        {props.profile.bio}
         <div>
-          <button className="btn btn-white btn-sm mt-3" onClick={props.toggleModal}>
-            Edit profile
-          </button>
+          {(props.profile.user === props.user._id && (
+            <button className="btn btn-white btn-sm " onClick={props.toggleModal}>
+              Edit profile
+            </button>
+          )) || <button className="btn btn-white btn-sm invisible" />}
+          {/* TODO: Add favorite button */}
         </div>
         <hr />
       </div>
@@ -21,6 +25,11 @@ function User(props) {
 
 User.propTypes = {
   user: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
-export default User;
+const mapStateToProps = state => ({
+  user: state.auth.user,
+});
+
+export default connect(mapStateToProps)(User);

@@ -30,7 +30,7 @@ export class PostItem extends Component {
           <h3 className="mt-1">
             {post.title}
             {post.user === this.props.auth.user._id ? (
-              <button type="button" onClick={() => this.onDeleteClick(post._id)} className="btn btn-danger mr-1">
+              <button type="button" onClick={() => this.onDeleteClick(post._id)} className="btn btn-danger ml-1">
                 <i className="fas fa-times" />
               </button>
             ) : null}
