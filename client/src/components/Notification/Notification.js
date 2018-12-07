@@ -2,12 +2,16 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import io from 'socket.io-client';
 
+import './Notification.css';
+import NotificationList from './NotificaitonList';
+
 // NOTE: Change when deploy
 
 export class Notification extends Component {
   state = {
     socket: null,
     notifications: [],
+    show: false,
   };
 
   componentWillMount() {
@@ -29,21 +33,31 @@ export class Notification extends Component {
   componentWillUnmount() {
     this.state.socket.disconnect();
   }
+
+  toggleNotifications = () => {
+    this.setState({show: !this.state.show});
+  };
   render() {
-    const {notifications} = this.state;
-    let content;
+    const {notifications, show} = this.state;
 
-    notifications.length === 0
-      ? (content = null)
-      : (content = notifications.map((notification, i) => (
-          <ul key={i} className="text-white">
-            <li>
-              {notification.content} {notification.type}
-            </li>
-          </ul>
-        )));
-
-    return <div className="text-white"> {content} </div>;
+    return (
+      <div className="text-white notification">
+        <li className="nav-item" onClick={this.toggleNotifications}>
+          <a className="nav-link">
+            <i className="far fa-heart fa-2x" />
+            {notifications.length > 0 && notifications.length}
+          </a>
+        </li>
+        {show && (
+          <NotificationList
+            socket={this.state.socket}
+            user={this.props.user._id}
+            notifications={notifications}
+            toggleNotifications={this.toggleNotifications}
+          />
+        )}
+      </div>
+    );
   }
 }
 

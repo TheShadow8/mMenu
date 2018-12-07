@@ -1,0 +1,24 @@
+.notification {
+  position: relative;
+}
+
+.notification__list {
+  position: absolute;
+  padding-top: 15px;
+  left: -90px;
+  width: 250px;
+  background-color: #272727;
+  border: #fff;
+  z-index: 1;
+}
+
+.notification__text {
+  color: rgba(255, 255, 255, 0.5);
+}
+.post__link {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.post__link:hover {
+  color: #fff;
+}
