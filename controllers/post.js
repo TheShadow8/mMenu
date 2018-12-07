@@ -2,6 +2,7 @@ const Post = require('../models/Post');
 const User = require('../models/User');
 const {validatePostInput, validateCommentInput} = require('../validation/post');
 const uploadImage = require('../middleware/uploadImage');
+const {createNotification} = require('../config/socketio');
 
 // @route   GET api/posts
 // @desc    Get posts
@@ -131,6 +132,7 @@ exports.postComment = async (req, res) => {
 
   try {
     const post = await Post.findById(req.params.id);
+    const user = await Profile.findOne({user: req.user._id});
 
     const newComment = {
       content: req.body.content,
@@ -142,6 +144,9 @@ exports.postComment = async (req, res) => {
     post.comments.unshift(newComment);
 
     await post.save();
+
+    if (post.user.toString() !== req.user._id.toString())
+      createNotification(req.app.get('socketio'), post.user, post._id, `${user.name} commented your post`, 'like');
     res.json(post);
   } catch (err) {
     console.log(err.message);
@@ -180,7 +185,7 @@ exports.deleteComment = async (req, res) => {
 exports.likePost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    console.log(typeof req.user._id);
+    const user = await Profile.findOne({user: req.user._id});
 
     if (post.likes.filter(like => like.user.toString() === req.user._id.toString()).length > 0) {
       return res.status(400).json({alreadyliked: 'User already liked this post'});
@@ -188,6 +193,9 @@ exports.likePost = async (req, res) => {
 
     post.likes.unshift({user: req.user._id});
     await post.save();
+    if (post.user.toString() !== req.user._id.toString())
+      createNotification(req.app.get('socketio'), post.user, post._id, `${user.name} likes your post`, 'like');
+
     res.json(post);
   } catch (err) {
     console.log(err.message);
@@ -206,7 +214,7 @@ exports.unlikePost = async (req, res) => {
       return res.status(400).json({notliked: 'You have not yet liked this post'});
     }
 
-    const removeIndex = post.likes.map(item => item.user.toString()).indexOf(req.user._id);
+    const removeIndex = post.likes.map(item => item.user.toString()).indexOf(req.user._id.toString());
     // Splice out of array
     post.likes.splice(removeIndex, 1);
 

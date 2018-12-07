@@ -48,4 +48,12 @@ app.use('/api/posts', posts);
 
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => console.log(`Server running on port ${port}`));
+const server = app.listen(port, () => console.log(`Server running on port ${port}`));
+
+// Socket io config
+const io = require('socket.io')(server);
+const {socketManager} = require('./config/socketio');
+io.on('connection', socket => {
+  socketManager(socket);
+});
+app.set('socketio', io);

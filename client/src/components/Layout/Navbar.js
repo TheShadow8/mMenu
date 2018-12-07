@@ -5,6 +5,8 @@ import propTypes from 'prop-types';
 
 import {logoutUser} from '../../actions/authActions';
 
+import Notification from '../Notification/Notification';
+
 class Navbar extends Component {
   onLogoutClick(e) {
     e.preventDefault();
@@ -49,6 +51,7 @@ class Navbar extends Component {
                 <i className="far fa-heart fa-2x" />
               </a>
             </li> */}
+            <Notification />
             <li className="nav-item">
               <Link className="nav-link" to="/profile">
                 <i className="far fa-user fa-2x" />
