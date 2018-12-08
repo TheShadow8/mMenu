@@ -39,7 +39,6 @@ exports.postPost = (req, res) => {
       return res.status(400).json({invalidError: 'Invalid image file'});
     }
 
-    const url = req.protocol + '://' + req.get('host');
     const {errors, isValid} = validatePostInput(req.body);
 
     // Check validation
@@ -54,7 +53,7 @@ exports.postPost = (req, res) => {
         avatar: req.body.avatar,
         title: req.body.title,
         content: req.body.content,
-        imagePath: url + '/images/' + req.file.filename,
+        imagePath: req.file.location,
       });
 
       const newPost = await newPostData.save();

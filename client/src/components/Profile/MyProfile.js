@@ -107,7 +107,7 @@ export class MyProfile extends Component {
             <label className="cols-sm-2 control-label m-0">Avatar</label>
             <input
               className={classnames('form-control form-control-md', {
-                'is-invalid': errors.invalidError,
+                'is-invalid': errors.invalidAvatar,
               })}
               type="file"
               name="image"

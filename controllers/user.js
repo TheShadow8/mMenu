@@ -129,10 +129,8 @@ exports.postProfile = (req, res) => {
   uploadImage(req, res, async err => {
     if (err) {
       console.log(err);
-      return res.status(400).json({invalidError: 'Invalid image file'});
+      return res.status(400).json({invalidAvatar: 'Invalid image file'});
     }
-
-    const url = req.protocol + '://' + req.get('host');
 
     try {
       // console.log(req.user, req.body);
@@ -146,7 +144,7 @@ exports.postProfile = (req, res) => {
 
       if (req.body.name) newProfile.name = req.body.name;
       if (req.body.bio) newProfile.bio = req.body.bio;
-      if (req.file) newProfile.avatar = url + '/images/' + req.file.filename;
+      if (req.file) newProfile.avatar = req.file.location;
 
       const profile = await Profile.findOneAndUpdate(
         {user: req.user._id},
