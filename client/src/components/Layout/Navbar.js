@@ -32,9 +32,9 @@ class Navbar extends Component {
         </button>
 
         <div className="collapse navbar-collapse" id="navbarColor03">
-          <form className="form-inline ml-auto">
+          {/* <form className="form-inline ml-auto">
             <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-          </form>
+          </form> */}
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
               <Link className="nav-link" to="/addpost">

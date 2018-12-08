@@ -18,11 +18,8 @@ app.use(
 );
 app.use(bodyParser.json());
 
-// Use images folder to save uploaded image
-app.use('/images', express.static(path.join('images')));
-
 // DB config
-const db = require('./config/dev_keys').mongoURI;
+const db = require('./config/keys').mongoURI;
 
 // Connect to MongoDB
 mongoose
@@ -45,6 +42,16 @@ app.use(cors());
 // Use routes
 app.use('/api/users', users);
 app.use('/api/posts', posts);
+
+// Server static assets if in production
+if (process.env.NODE_ENV === 'production') {
+  // Use static folder
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
 
 const port = process.env.PORT || 5000;
 

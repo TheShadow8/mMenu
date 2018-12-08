@@ -2,4 +2,4 @@
 package-lock.json
 /images
 .vscode
-config/dev_keys.js
+config/keys_dev.js

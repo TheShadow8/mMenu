@@ -1,7 +1,7 @@
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 const aws = require('aws-sdk');
-const keys = require('../config/dev_keys');
+const keys = require('../config/keys');
 
 const MIME_TYPE_MAP = {
   'image/png': 'png',

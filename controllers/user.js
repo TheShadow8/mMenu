@@ -1,7 +1,7 @@
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const keys = require('../config/dev_keys');
+const keys = require('../config/keys');
 const uploadImage = require('../middleware/uploadImage');
 
 // Load Input Validation
