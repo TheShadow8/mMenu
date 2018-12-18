@@ -1,10 +1,7 @@
-import React, {Component} from 'react';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import jwt_decode from 'jwt-decode';
-import setAuthToken from './utils/setAuthToken';
-import {setCurrentUser, getCurrentUserProfile} from './actions/authActions';
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import store from './store';
 
 import PrivateRoute from './components/Common/PrivateRoute';
@@ -18,28 +15,6 @@ import MyProfile from './components/Profile/MyProfile';
 import Profile from './components/Profile/Profile';
 
 import './App.css';
-
-// Check for token
-if (localStorage.jwtToken) {
-  // Set auth token header auth
-  setAuthToken(localStorage.jwtToken);
-  // Decode token and get user
-  const decoded = jwt_decode(localStorage.jwtToken);
-  // Set user and isAuthenticated
-  store.dispatch(setCurrentUser(decoded));
-
-  // Get current user profile
-  store.dispatch(getCurrentUserProfile(decoded._id));
-
-  // Check for exprired token
-  const currentTime = Date.now() / 1000;
-  if (decoded.exp < currentTime) {
-    // TODO clear current profile
-
-    // Redirect to home page
-    window.location.href = '/';
-  }
-}
 
 class App extends Component {
   render() {

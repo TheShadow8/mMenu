@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {getPost, deletePost} from '../../actions/postActions';
+import { connect } from 'react-redux';
+import { getPost, deletePost } from '../../actions/postActions';
 
 import CommentList from './CommentList';
 import Likes from './Likes';
@@ -12,11 +12,17 @@ export class PostItem extends Component {
     this.props.getPost(this.props.match.params.id);
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.match.params.id !== this.props.match.params.id) {
+      this.props.getPost(this.props.match.params.id);
+    }
+  }
+
   onDeleteClick = postId => {
     this.props.deletePost(postId, this.props.history);
   };
   render() {
-    const {post, loading} = this.props.post;
+    const { post, loading } = this.props.post;
 
     let postContent;
 
@@ -30,7 +36,11 @@ export class PostItem extends Component {
           <h3 className="mt-1">
             {post.title}
             {post.user === this.props.auth.user._id ? (
-              <button type="button" onClick={() => this.onDeleteClick(post._id)} className="btn btn-danger ml-1">
+              <button
+                type="button"
+                onClick={() => this.onDeleteClick(post._id)}
+                className="btn btn-danger ml-1"
+              >
                 <i className="fas fa-times" />
               </button>
             ) : null}
@@ -52,15 +62,15 @@ export class PostItem extends Component {
 
 PostItem.propTypes = {
   getPost: PropTypes.func.isRequired,
-  post: PropTypes.object.isRequired,
+  post: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   post: state.post,
-  auth: state.auth,
+  auth: state.auth
 });
 
 export default connect(
   mapStateToProps,
-  {getPost, deletePost},
+  { getPost, deletePost }
 )(PostItem);
