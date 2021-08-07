@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { getPost, deletePost } from '../../actions/postActions';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { getPost, deletePost } from "../../actions/postActions";
 
-import CommentList from './CommentList';
-import Likes from './Likes';
-import CommentForm from './CommentForm';
+import CommentList from "./CommentList";
+import Likes from "./Likes";
+import CommentForm from "./CommentForm";
 
 export class PostItem extends Component {
   componentDidMount() {
@@ -18,7 +18,7 @@ export class PostItem extends Component {
     }
   }
 
-  onDeleteClick = postId => {
+  onDeleteClick = (postId) => {
     this.props.deletePost(postId, this.props.history);
   };
   render() {
@@ -31,7 +31,11 @@ export class PostItem extends Component {
     } else {
       postContent = (
         <div className=" col-sm-12 align-self-center text-white ">
-          <img className="img-thumbnail mx-auto d-block " src={post.imagePath} alt="" />
+          <img
+            className="img-thumbnail mx-auto d-block "
+            src={`/${post.imagePath}`}
+            alt=""
+          />
 
           <h3 className="mt-1">
             {post.title}
@@ -62,15 +66,12 @@ export class PostItem extends Component {
 
 PostItem.propTypes = {
   getPost: PropTypes.func.isRequired,
-  post: PropTypes.object.isRequired
+  post: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   post: state.post,
-  auth: state.auth
+  auth: state.auth,
 });
 
-export default connect(
-  mapStateToProps,
-  { getPost, deletePost }
-)(PostItem);
+export default connect(mapStateToProps, { getPost, deletePost })(PostItem);
