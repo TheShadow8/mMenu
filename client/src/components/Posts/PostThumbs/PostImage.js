@@ -6,8 +6,9 @@ function PostImage({ post }) {
   let path = `/${post.imagePath}`;
 
   if (
-    post &&
-    post.imagePath &&
+    post !== null &&
+    post !== undefined &&
+    Object.keys(post).length > 0 &&
     typeof post.imagePath === "string" &&
     post.imagePath.charAt(0) === "h"
   ) {
