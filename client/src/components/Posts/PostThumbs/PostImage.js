@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 function PostImage({ post }) {
-  const path =
-    post && post.imagePath && post.imagePath.charAt(0) === "h"
-      ? post.imagePath
-      : `/${post.imagePath}`;
+  let path = `/${post.imagePath}`;
+
+  if (post && post.imagePath && post.imagePath.charAt(0) === "h") {
+    path = post.imagePath;
+  }
 
   return (
     <div className="post-thumbnails__box">
