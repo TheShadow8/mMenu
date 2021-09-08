@@ -27,7 +27,9 @@ export class PostItem extends Component {
     let postContent;
 
     const path =
-      post.imagePath.charAt(0) === "h" ? post.imagePath : `/${post.imagePath}`;
+      post && post.imagePath && post.imagePath.charAt(0) === "h"
+        ? post.imagePath
+        : `/${post.imagePath}`;
 
     if (post === null || loading || Object.keys(post).length === 0) {
       postContent = null;
