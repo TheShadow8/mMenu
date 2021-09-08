@@ -1,19 +1,22 @@
-const Post = require('../models/Post');
-const User = require('../models/User');
-const {validatePostInput, validateCommentInput} = require('../validation/post');
-const uploadImage = require('../middleware/uploadImage');
-const {createNotification} = require('../config/socketio');
+const Post = require("../models/Post");
+const User = require("../models/User");
+const {
+  validatePostInput,
+  validateCommentInput,
+} = require("../validation/post");
+const uploadImage = require("../middleware/uploadImage");
+const { createNotification } = require("../config/socketio");
 
 // @route   GET api/posts
 // @desc    Get posts
 // @access  Private
 exports.getPosts = async (req, res) => {
   try {
-    const posts = await Post.find().sort({date: -1});
+    const posts = await Post.find().sort({ date: -1 });
 
     res.json(posts);
   } catch {
-    res.status(404).json({nopostsfound: 'No posts found'});
+    res.status(404).json({ nopostsfound: "No posts found" });
   }
 };
 
@@ -22,10 +25,12 @@ exports.getPosts = async (req, res) => {
 // @access  Private
 exports.getUserPosts = async (req, res) => {
   try {
-    const userPosts = await Post.find({user: req.params.id}).sort({date: -1});
+    const userPosts = await Post.find({ user: req.params.id }).sort({
+      date: -1,
+    });
     res.json(userPosts);
   } catch {
-    res.status(404).json({nopostsfound: 'No posts found'});
+    res.status(404).json({ nopostsfound: "No posts found" });
   }
 };
 
@@ -33,13 +38,13 @@ exports.getUserPosts = async (req, res) => {
 // @desc     Create post
 // @accesss  Private
 exports.postPost = (req, res) => {
-  uploadImage(req, res, async err => {
+  uploadImage(req, res, async (err) => {
     if (err) {
       console.log(err);
-      return res.status(400).json({invalidError: 'Invalid image file'});
+      return res.status(400).json({ invalidError: "Invalid image file" });
     }
 
-    const {errors, isValid} = validatePostInput(req.body);
+    const { errors, isValid } = validatePostInput(req.body);
 
     // Check validation
     if (!isValid) {
@@ -53,14 +58,16 @@ exports.postPost = (req, res) => {
         avatar: req.body.avatar,
         title: req.body.title,
         content: req.body.content,
-        imagePath: req.file.location,
+        imagePath: req.file.path,
       });
 
       const newPost = await newPostData.save();
       res.json(newPost);
     } catch (err) {
       console.log(err);
-      return res.status(400).json({postError: 'Create post fail, please try again'});
+      return res
+        .status(400)
+        .json({ postError: "Create post fail, please try again" });
     }
   });
 };
@@ -73,7 +80,7 @@ exports.getPost = async (req, res) => {
     const post = await Post.findById(req.params.id);
     res.json(post);
   } catch (err) {
-    res.status(404).json({nopostfound: 'No post found with that ID'});
+    res.status(404).json({ nopostfound: "No post found with that ID" });
   }
 };
 
@@ -86,13 +93,13 @@ exports.deletePost = async (req, res) => {
     const post = await Post.findById(req.params.id);
 
     if (post.user.toString() !== user._id.toString()) {
-      return res.status(401).json({notauthorized: 'User not authorized'});
+      return res.status(401).json({ notauthorized: "User not authorized" });
     }
 
     // Delete
-    post.remove().then(() => res.json({success: true}));
+    post.remove().then(() => res.json({ success: true }));
   } catch (err) {
-    res.status(404).json({nopostfound: 'No post found with that ID'});
+    res.status(404).json({ nopostfound: "No post found with that ID" });
   }
 };
 // @route   Get api/posts/comment/:id/:comment_id
@@ -103,17 +110,25 @@ exports.getComment = async (req, res) => {
     const post = await Post.findById(req.params.id);
 
     // Check if comment exists
-    if (post.comments.filter(comment => comment._id.toString() === req.params.comment_id).length === 0) {
-      return res.status(404).json({commentnotexists: 'Comment does not exist'});
+    if (
+      post.comments.filter(
+        (comment) => comment._id.toString() === req.params.comment_id
+      ).length === 0
+    ) {
+      return res
+        .status(404)
+        .json({ commentnotexists: "Comment does not exist" });
     }
 
     // Get comment index
-    const index = post.comments.map(item => item._id.toString()).indexOf(req.params.comment_id);
+    const index = post.comments
+      .map((item) => item._id.toString())
+      .indexOf(req.params.comment_id);
 
     res.json(post.comments[index]);
   } catch (err) {
     console.log(err);
-    res.status(404).json({postnotfound: 'No post found'});
+    res.status(404).json({ postnotfound: "No post found" });
   }
 };
 
@@ -121,7 +136,7 @@ exports.getComment = async (req, res) => {
 // @desc    Add comment to post
 // @access  Private
 exports.postComment = async (req, res) => {
-  const {errors, isValid} = validateCommentInput(req.body);
+  const { errors, isValid } = validateCommentInput(req.body);
 
   // Check Validation
   if (!isValid) {
@@ -131,7 +146,7 @@ exports.postComment = async (req, res) => {
 
   try {
     const post = await Post.findById(req.params.id);
-    const user = await Profile.findOne({user: req.user._id});
+    const user = await Profile.findOne({ user: req.user._id });
 
     const newComment = {
       content: req.body.content,
@@ -145,11 +160,17 @@ exports.postComment = async (req, res) => {
     await post.save();
 
     if (post.user.toString() !== req.user._id.toString())
-      createNotification(req.app.get('socketio'), post.user, post._id, `${user.name} commented your post`, 'like');
+      createNotification(
+        req.app.get("socketio"),
+        post.user,
+        post._id,
+        `${user.name} commented your post`,
+        "like"
+      );
     res.json(post);
   } catch (err) {
     console.log(err.message);
-    res.status(404).json({postnotfound: 'No post found'});
+    res.status(404).json({ postnotfound: "No post found" });
   }
 };
 
@@ -161,12 +182,20 @@ exports.deleteComment = async (req, res) => {
     const post = await Post.findById(req.params.id);
 
     // Check if comment exists
-    if (post.comments.filter(comment => comment._id.toString() === req.params.comment_id).length === 0) {
-      return res.status(404).json({commentnotexists: 'Comment does not exist'});
+    if (
+      post.comments.filter(
+        (comment) => comment._id.toString() === req.params.comment_id
+      ).length === 0
+    ) {
+      return res
+        .status(404)
+        .json({ commentnotexists: "Comment does not exist" });
     }
 
     // Get remove index
-    const removeIndex = post.comments.map(item => item._id.toString()).indexOf(req.params.comment_id);
+    const removeIndex = post.comments
+      .map((item) => item._id.toString())
+      .indexOf(req.params.comment_id);
 
     post.comments.splice(removeIndex, 1);
 
@@ -174,7 +203,7 @@ exports.deleteComment = async (req, res) => {
     res.json(post);
   } catch (err) {
     console.log(err.message);
-    res.status(404).json({postnotfound: 'No post found'});
+    res.status(404).json({ postnotfound: "No post found" });
   }
 };
 
@@ -184,21 +213,33 @@ exports.deleteComment = async (req, res) => {
 exports.likePost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    const user = await Profile.findOne({user: req.user._id});
+    const user = await Profile.findOne({ user: req.user._id });
 
-    if (post.likes.filter(like => like.user.toString() === req.user._id.toString()).length > 0) {
-      return res.status(400).json({alreadyliked: 'User already liked this post'});
+    if (
+      post.likes.filter(
+        (like) => like.user.toString() === req.user._id.toString()
+      ).length > 0
+    ) {
+      return res
+        .status(400)
+        .json({ alreadyliked: "User already liked this post" });
     }
 
-    post.likes.unshift({user: req.user._id});
+    post.likes.unshift({ user: req.user._id });
     await post.save();
     if (post.user.toString() !== req.user._id.toString())
-      createNotification(req.app.get('socketio'), post.user, post._id, `${user.name} likes your post`, 'like');
+      createNotification(
+        req.app.get("socketio"),
+        post.user,
+        post._id,
+        `${user.name} likes your post`,
+        "like"
+      );
 
     res.json(post);
   } catch (err) {
     console.log(err.message);
-    res.status(404).json({postnotfound: 'No post found'});
+    res.status(404).json({ postnotfound: "No post found" });
   }
 };
 
@@ -209,11 +250,19 @@ exports.unlikePost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
-    if (post.likes.filter(like => like.user.toString() === req.user._id.toString()).length === 0) {
-      return res.status(400).json({notliked: 'You have not yet liked this post'});
+    if (
+      post.likes.filter(
+        (like) => like.user.toString() === req.user._id.toString()
+      ).length === 0
+    ) {
+      return res
+        .status(400)
+        .json({ notliked: "You have not yet liked this post" });
     }
 
-    const removeIndex = post.likes.map(item => item.user.toString()).indexOf(req.user._id.toString());
+    const removeIndex = post.likes
+      .map((item) => item.user.toString())
+      .indexOf(req.user._id.toString());
     // Splice out of array
     post.likes.splice(removeIndex, 1);
 
@@ -221,6 +270,6 @@ exports.unlikePost = async (req, res) => {
     res.json(post);
   } catch (err) {
     console.log(err.message);
-    res.status(404).json({postnotfound: 'No post found'});
+    res.status(404).json({ postnotfound: "No post found" });
   }
 };
