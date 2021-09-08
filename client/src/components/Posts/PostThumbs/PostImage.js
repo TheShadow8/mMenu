@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 function PostImage({ post }) {
   let path = `/${post.imagePath}`;
 
+  console.log("post", post);
   if (
     post !== null &&
     post !== undefined &&
