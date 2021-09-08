@@ -5,7 +5,12 @@ import { Link } from "react-router-dom";
 function PostImage({ post }) {
   let path = `/${post.imagePath}`;
 
-  if (post && post.imagePath && post.imagePath.charAt(0) === "h") {
+  if (
+    post &&
+    post.imagePath &&
+    typeof post.imagePath === "string" &&
+    post.imagePath.charAt(0) === "h"
+  ) {
     path = post.imagePath;
   }
 
