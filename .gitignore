@@ -4,3 +4,4 @@ package-lock.json
 .vscode
 config/keys_dev.js
 .env
+.DS_Store

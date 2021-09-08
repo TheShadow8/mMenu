@@ -26,16 +26,15 @@ export class PostItem extends Component {
 
     let postContent;
 
+    const path =
+      post.imagePath.chatAt(0) === "h" ? post.imagePath : `/${post.imagePath}`;
+
     if (post === null || loading || Object.keys(post).length === 0) {
       postContent = null;
     } else {
       postContent = (
         <div className=" col-sm-12 align-self-center text-white ">
-          <img
-            className="img-thumbnail mx-auto d-block "
-            src={`/${post.imagePath}`}
-            alt=""
-          />
+          <img className="img-thumbnail mx-auto d-block " src={path} alt="" />
 
           <h3 className="mt-1">
             {post.title}
